@@ -24,7 +24,7 @@ Claude Code (Windows):
 claude mcp add ai-video-enhancer -- cmd /c npx -y @contentasoft/ai-video-enhancer-mcp@1.0.0
 ```
 
-Claude Desktop, Cursor, VS Code and other clients (`mcpServers` JSON):
+Claude Desktop, Cursor and other clients that use `mcpServers` (JSON):
 
 ```json
 {
@@ -33,6 +33,31 @@ Claude Desktop, Cursor, VS Code and other clients (`mcpServers` JSON):
   }
 }
 ```
+
+VS Code (`.vscode/mcp.json`, note the `servers` key):
+
+```json
+{
+  "servers": {
+    "ai-video-enhancer": { "type": "stdio", "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/ai-video-enhancer-mcp@1.0.0"] }
+  }
+}
+```
+
+Codex (`codex mcp add ai-video-enhancer -- cmd /c npx -y @contentasoft/ai-video-enhancer-mcp@1.0.0`, or `~/.codex/config.toml`):
+
+```toml
+[mcp_servers.ai-video-enhancer]
+command = "cmd"
+args = ["/c", "npx", "-y", "@contentasoft/ai-video-enhancer-mcp@1.0.0"]
+startup_timeout_sec = 60
+tool_timeout_sec = 3600
+```
+
+The first start downloads this small package, which can take longer than a client's default startup timeout
+(Codex: 10 s; Claude Code: set `MCP_TIMEOUT`); after that it starts at once. Long jobs such as video encodes can
+exceed a client's default tool timeout too (Codex: 60 s; Claude Code: `MCP_TOOL_TIMEOUT`). The app is told to stop a
+job when the client cancels it.
 
 Once the app is installed you can also skip the launcher: `"command": "aivideoenhancer", "args": ["serve"]`.
 

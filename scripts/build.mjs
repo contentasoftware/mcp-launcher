@@ -30,10 +30,12 @@ for (const app of apps) {
     bin: { [app.bin]: 'index.js' },
     files: ['index.js', 'app.json', 'README.md', 'LICENSE'],
     engines: { node: '>=18' },
+    // A scoped package is private unless published with --access public; make "npm publish" do the right thing.
+    publishConfig: { access: 'public' },
     license: 'MIT',
     author: 'ContentaSoft AB',
     homepage: app.websiteUrl,
-    repository: { type: 'git', url: `git+${repoUrl}.git` },
+    repository: { type: 'git', url: `git+${repoUrl}.git`, directory: `packages/${path.basename(dir)}` },
     keywords: ['mcp', 'model-context-protocol', 'windows', ...app.summary.split(/[ ,/]+/).filter((w) => w.length > 3).slice(0, 6)],
   }, null, 2) + '\n');
 
@@ -64,7 +66,7 @@ Claude Code (Windows):
 claude mcp add ${app.serverName} -- cmd /c ${npx}
 \`\`\`
 
-Claude Desktop, Cursor, VS Code and other clients (\`mcpServers\` JSON):
+Claude Desktop, Cursor and other clients that use \`mcpServers\` (JSON):
 
 \`\`\`json
 {
@@ -73,6 +75,31 @@ Claude Desktop, Cursor, VS Code and other clients (\`mcpServers\` JSON):
   }
 }
 \`\`\`
+
+VS Code (\`.vscode/mcp.json\`, note the \`servers\` key):
+
+\`\`\`json
+{
+  "servers": {
+    "${app.serverName}": { "type": "stdio", "command": "cmd", "args": ["/c", "npx", "-y", "${app.package}@${version}"] }
+  }
+}
+\`\`\`
+
+Codex (\`codex mcp add ${app.serverName} -- cmd /c ${npx}\`, or \`~/.codex/config.toml\`):
+
+\`\`\`toml
+[mcp_servers.${app.serverName}]
+command = "cmd"
+args = ["/c", "npx", "-y", "${app.package}@${version}"]
+startup_timeout_sec = 60
+tool_timeout_sec = 3600
+\`\`\`
+
+The first start downloads this small package, which can take longer than a client's default startup timeout
+(Codex: 10 s; Claude Code: set \`MCP_TIMEOUT\`); after that it starts at once. Long jobs such as video encodes can
+exceed a client's default tool timeout too (Codex: 60 s; Claude Code: \`MCP_TOOL_TIMEOUT\`). The app is told to stop a
+job when the client cancels it.
 
 Once the app is installed you can also skip the launcher: \`"command": "${app.exe.replace('.exe', '')}", "args": ["serve"]\`.
 
@@ -91,13 +118,13 @@ The launcher is MIT-licensed (see LICENSE). ${app.product} itself is commercial 
 `);
 
   write(path.join(root, 'registry', `${app.key}.server.json`), JSON.stringify({
-    $schema: 'https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json',
+    $schema: 'https://static.modelcontextprotocol.io/schemas/2025-12-11/server.schema.json',
     name: app.registryName,
     title: app.product,
     description: app.registryDescription,
     version,
     websiteUrl: app.websiteUrl,
-    repository: { url: repoUrl, source: 'github' },
+    repository: { url: repoUrl, source: 'github', subfolder: `packages/${path.basename(dir)}` },
     packages: [{
       registryType: 'npm',
       identifier: app.package,

@@ -15,12 +15,16 @@
   "engines": {
     "node": ">=18"
   },
+  "publishConfig": {
+    "access": "public"
+  },
   "license": "MIT",
   "author": "ContentaSoft AB",
   "homepage": "https://www.contenta-software.com/aivideoenhancer/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ContentaSoft/mcp-launcher.git"
+    "url": "git+https://github.com/ContentaSoft/mcp-launcher.git",
+    "directory": "packages/ai-video-enhancer-mcp"
   },
   "keywords": [
     "mcp",

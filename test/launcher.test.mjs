@@ -39,7 +39,7 @@ test('stub: initialize negotiates and says the app is missing', () => {
   assert.equal(r.result.protocolVersion, '2024-11-05');
   assert.equal(r.result.serverInfo.name, 'contenta-converter');
   assert.match(r.result.instructions, /not installed/);
-  assert.equal(call({ jsonrpc: '2.0', id: 2, method: 'initialize', params: { protocolVersion: '2099-01-01' } }).result.protocolVersion, '2025-06-18');
+  assert.equal(call({ jsonrpc: '2.0', id: 2, method: 'initialize', params: { protocolVersion: '2099-01-01' } }).result.protocolVersion, '2025-11-25');
 });
 
 test('stub: lists only get_started, read-only', () => {
