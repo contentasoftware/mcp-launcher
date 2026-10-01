@@ -1,0 +1,24 @@
+{
+  "key": "vr",
+  "package": "@contentasoft/videorecompress-mcp",
+  "bin": "videorecompress-mcp",
+  "registryName": "com.contenta-software/videorecompress",
+  "serverName": "videorecompress-studio",
+  "product": "VideoRecompress Studio",
+  "summary": "shrinking video files with H.265/AV1 and GPU encoding, one file or a whole folder",
+  "registryDescription": "Shrink video files on your Windows PC with H.265/AV1 and GPU encoding, a whole folder at a time",
+  "exe": "videorecompress.exe",
+  "installFolder": "VideoRecompressStudio",
+  "overrideEnv": "CONTENTASOFT_VR_EXE",
+  "websiteUrl": "https://www.contenta-software.com/videorecompress/",
+  "downloadUrl": "https://www.contenta-software.com/videorecompress/download.php",
+  "privacyUrl": "https://www.contenta-software.com/videorecompress/privacy.php",
+  "networkNote": "",
+  "tools": [
+    "recompress_video",
+    "batch_recompress",
+    "analyze_video",
+    "estimate_savings",
+    "list_presets"
+  ]
+}

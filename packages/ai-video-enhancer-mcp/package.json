@@ -1,0 +1,36 @@
+{
+  "name": "@contentasoft/ai-video-enhancer-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for AI Video Enhancer Studio — Upscale, stabilize, denoise and raise the frame rate of videos locally on your NVIDIA GPU",
+  "mcpName": "com.contenta-software/ai-video-enhancer",
+  "bin": {
+    "ai-video-enhancer-mcp": "index.js"
+  },
+  "files": [
+    "index.js",
+    "app.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "author": "ContentaSoft AB",
+  "homepage": "https://www.contenta-software.com/aivideoenhancer/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ContentaSoft/mcp-launcher.git"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "windows",
+    "upscaling",
+    "stabilizing",
+    "denoising",
+    "frame-rate",
+    "conversion",
+    "videos"
+  ]
+}

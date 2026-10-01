@@ -1,0 +1,11 @@
+{
+  "name": "contentasoft-mcp-launcher",
+  "private": true,
+  "description": "Builds the four @contentasoft/*-mcp launcher packages and their MCP registry server.json files.",
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "test": "node --test test/*.test.mjs",
+    "pack": "node scripts/build.mjs && node -e \"require('fs').mkdirSync('dist',{recursive:true})\" && cd packages/contenta-converter-mcp && npm pack --pack-destination ../../dist && cd ../videorecompress-mcp && npm pack --pack-destination ../../dist && cd ../ai-video-enhancer-mcp && npm pack --pack-destination ../../dist && cd ../cad-converter-mcp && npm pack --pack-destination ../../dist"
+  },
+  "license": "MIT"
+}

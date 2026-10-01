@@ -1,0 +1,36 @@
+{
+  "name": "@contentasoft/videorecompress-mcp",
+  "version": "1.0.0",
+  "description": "MCP server for VideoRecompress Studio — Shrink video files on your Windows PC with H.265/AV1 and GPU encoding, a whole folder at a time",
+  "mcpName": "com.contenta-software/videorecompress",
+  "bin": {
+    "videorecompress-mcp": "index.js"
+  },
+  "files": [
+    "index.js",
+    "app.json",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18"
+  },
+  "license": "MIT",
+  "author": "ContentaSoft AB",
+  "homepage": "https://www.contenta-software.com/videorecompress/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ContentaSoft/mcp-launcher.git"
+  },
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "windows",
+    "shrinking",
+    "video",
+    "files",
+    "with",
+    "H.265",
+    "encoding"
+  ]
+}

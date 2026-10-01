@@ -1,0 +1,29 @@
+{
+  "key": "cc",
+  "package": "@contentasoft/contenta-converter-mcp",
+  "bin": "contenta-converter-mcp",
+  "registryName": "com.contenta-software/contenta-converter",
+  "serverName": "contenta-converter",
+  "product": "Contenta Converter",
+  "summary": "batch image conversion, resizing, effects, metadata, PDF albums and slideshows for 100+ image formats",
+  "registryDescription": "Batch-convert, resize and edit images on your Windows PC: 100+ formats, PDF albums, metadata",
+  "exe": "contenta.exe",
+  "installFolder": "ContentaConverter",
+  "overrideEnv": "CONTENTASOFT_CC_EXE",
+  "websiteUrl": "https://www.contenta-converter.com/",
+  "downloadUrl": "https://www.contenta-converter.com/download.php",
+  "privacyUrl": "https://www.contenta-converter.com/privacy.php",
+  "networkNote": "ai_transform sends the image to Google Gemini with your own Gemini API key.",
+  "tools": [
+    "convert_image",
+    "batch_convert",
+    "ai_transform",
+    "create_pdf_album",
+    "create_slideshow",
+    "merge_pdfs",
+    "detect_format",
+    "list_effects",
+    "read_metadata",
+    "write_metadata"
+  ]
+}

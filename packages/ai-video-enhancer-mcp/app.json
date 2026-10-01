@@ -1,0 +1,23 @@
+{
+  "key": "aive",
+  "package": "@contentasoft/ai-video-enhancer-mcp",
+  "bin": "ai-video-enhancer-mcp",
+  "registryName": "com.contenta-software/ai-video-enhancer",
+  "serverName": "ai-video-enhancer",
+  "product": "AI Video Enhancer Studio",
+  "summary": "upscaling, stabilizing, denoising and frame-rate conversion of videos on an NVIDIA RTX GPU",
+  "registryDescription": "Upscale, stabilize, denoise and raise the frame rate of videos locally on your NVIDIA GPU",
+  "exe": "aivideoenhancer.exe",
+  "installFolder": "AIVideoEnhancerStudio",
+  "overrideEnv": "CONTENTASOFT_AIVE_EXE",
+  "websiteUrl": "https://www.contenta-software.com/aivideoenhancer/",
+  "downloadUrl": "https://www.contenta-software.com/aivideoenhancer/download.php",
+  "privacyUrl": "https://www.contenta-software.com/aivideoenhancer/privacy.php",
+  "networkNote": "",
+  "tools": [
+    "enhance_video",
+    "analyze_video",
+    "get_status",
+    "list_presets"
+  ]
+}

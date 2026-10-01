@@ -1,0 +1,22 @@
+{
+  "$schema": "https://static.modelcontextprotocol.io/schemas/2025-10-17/server.schema.json",
+  "name": "com.contenta-software/contenta-converter",
+  "title": "Contenta Converter",
+  "description": "Batch-convert, resize and edit images on your Windows PC: 100+ formats, PDF albums, metadata",
+  "version": "1.0.0",
+  "websiteUrl": "https://www.contenta-converter.com/",
+  "repository": {
+    "url": "https://github.com/ContentaSoft/mcp-launcher",
+    "source": "github"
+  },
+  "packages": [
+    {
+      "registryType": "npm",
+      "identifier": "@contentasoft/contenta-converter-mcp",
+      "version": "1.0.0",
+      "transport": {
+        "type": "stdio"
+      }
+    }
+  ]
+}
