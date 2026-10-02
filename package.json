@@ -6,7 +6,8 @@
     "build": "node scripts/build.mjs",
     "test": "node --test test/*.test.mjs",
     "pack": "node scripts/build.mjs && node -e \"require('fs').mkdirSync('dist',{recursive:true})\" && cd packages/contenta-converter-mcp && npm pack --pack-destination ../../dist && cd ../videorecompress-mcp && npm pack --pack-destination ../../dist && cd ../ai-video-enhancer-mcp && npm pack --pack-destination ../../dist && cd ../cad-converter-mcp && npm pack --pack-destination ../../dist",
-    "plugins": "node scripts/build-plugins.mjs"
+    "plugins": "node scripts/build-plugins.mjs",
+    "openai": "node scripts/build-openai.mjs"
   },
   "license": "MIT"
 }
