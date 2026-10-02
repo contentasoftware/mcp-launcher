@@ -37,7 +37,7 @@ for (const app of apps) {
     name: p.name,
     displayName: app.product,
     version,
-    description: `${app.product} on your Windows PC from Claude: ${app.summary}. Runs locally on your files.`,
+    description: `${app.product} on your Windows PC from your AI agent: ${app.summary}. Runs locally on your files.`,
     author: { name: 'ContentaSoft AB', url: 'https://www.contenta-software.com/' },
     homepage: app.websiteUrl,
     repository: `https://github.com/contentasoftware/${p.name}-plugin`,
@@ -70,31 +70,41 @@ for (const app of apps) {
   write(path.join(dir, 'LICENSE'), license);
   write(path.join(dir, '.gitattributes'), '* text=auto eol=lf\n');
 
-  write(path.join(dir, 'README.md'), `# ${app.product} for Claude
+  write(path.join(dir, 'README.md'), `# ${app.product} plugin
 
-Use **${app.product}** from Claude on your Windows PC: ${app.summary}. Claude calls the app's tools on files on
-your computer; nothing is uploaded to Anthropic or to ContentaSoft to do the work.
+Use **${app.product}** from your AI agent on your Windows PC: ${app.summary}. The agent calls the app's tools
+on files on your computer; nothing is uploaded to the model provider or to ContentaSoft to do the work. It works
+with any agent that runs local MCP servers: Cursor, Claude Code, Codex, VS Code, Windsurf and others.
+
+## Install
+
+- **Cursor and other MCP clients** (\`mcpServers\` JSON): add
+  \`"${app.serverName}": { "command": "npx", "args": ["-y", "${app.package}"] }\`. Or install it from
+  cursor.directory.
+- **Claude Code / Cowork**: install this repository as a plugin. It runs the bundled launcher in \`server/\`.
+- More clients and options: https://www.npmjs.com/package/${app.package}
 
 ## What you need
 
 - Windows 10 or 11 with **${app.product}** installed. It has a free trial: ${app.downloadUrl}
-  (if it is not installed yet, the plugin's \`get_started\` tool gives Claude the download link and the steps).
-- Node.js 18 or later, which runs the small launcher in \`server/index.js\` (MIT, no dependencies, the same code
-  as the npm package \`${app.package}\`; source: https://github.com/contentasoftware/mcp-launcher). The launcher
-  starts the app's own MCP server (\`${cli} serve\`) and passes its messages through; it sends nothing over the
-  network itself.
-- Claude Code or Cowork on that computer. Chat on claude.ai cannot start local programs, so it does not load
-  this plugin's tools.
+  (if it is not installed yet, the \`get_started\` tool gives the agent the download link and the steps).
+- Node.js 18 or later, which runs the small launcher (MIT, no dependencies; the npm package \`${app.package}\`,
+  also bundled here as \`server/index.js\`; source: https://github.com/contentasoftware/mcp-launcher). The
+  launcher starts the app's own MCP server (\`${cli} serve\`) and passes its messages through; it sends nothing
+  over the network itself.
+- An agent that runs on that computer. Browser chat apps cannot start local programs, so they cannot use these
+  tools.
 
 ## What is included
 
 - **MCP server** \`${app.serverName}\` with the tools ${app.tools.map((t) => `\`${t}\``).join(', ')}. Each tool
   says whether it only reads files, writes new files, may overwrite files, or uses the internet.
-- **Skill** \`${p.skill}\`: how and when Claude should use those tools.
+- **Skill** \`${p.skill}\`: how and when the agent should use those tools.
 
 ## What runs and what is sent
 
-- The plugin runs \`node server/index.js\` from the plugin folder; nothing is downloaded. The launcher looks for
+- As a Claude plugin it runs \`node server/index.js\` from the plugin folder, so nothing is downloaded; through
+  \`npx\` the same launcher comes from npm. The launcher looks for
   \`${app.exe}\` in the app's install folder (\`%LOCALAPPDATA%\\Programs\\${app.installFolder}\`), on your \`PATH\`
   or in \`Program Files\`, and runs \`${cli} serve\`. If the app is missing it serves one tool, \`get_started\`.
 - The skill may only run the app's own command-line tool (\`allowed-tools: Bash(${cli}:*)\`).
