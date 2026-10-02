@@ -19,6 +19,9 @@ const listing = {
   cc: {
     name: 'contenta-converter', skill: 'contenta-image-processing', icon: 'docs/brand/contenta-converter/contenta-converter-logo-1024.png',
     short: 'Batch convert images locally',
+    category: 'Creativity',
+    supportUrl: 'https://www.contenta-converter.com/support.php',
+    purpose: 'Convert, resize, watermark and tag whole folders of images (camera RAW, HEIC, AVIF, PSD, PDF and 100+ formats) on your Windows PC.',
     prompts: [
       'Convert every HEIC photo in this folder to JPG at 2000 px wide.',
       'Split this 20-page scanned PDF into one PNG per page.',
@@ -28,6 +31,9 @@ const listing = {
   vr: {
     name: 'videorecompress-studio', skill: 'contenta-video', icon: 'docs/brand/videorecompress/videorecompress-logo-1024.png',
     short: 'Shrink video files locally',
+    category: 'Productivity',
+    supportUrl: 'https://www.contenta-software.com/videorecompress/support.php',
+    purpose: 'Shrink video files and free up disk space by recompressing them to H.265 or AV1 on your Windows PC, one file or a whole folder.',
     prompts: [
       'Compress all videos in this folder to H.265 and tell me how much space I saved.',
       'Make this video small enough to send on WhatsApp.',
@@ -37,6 +43,8 @@ const listing = {
   aive: {
     name: 'contentasoft-ai-video-enhancer', skill: 'contenta-video-enhancer', icon: 'docs/app-icons-512/aive_icon_512.png',
     short: 'Upscale and fix videos locally',
+    category: 'Creativity',
+    purpose: 'Upscale, stabilize, denoise and smooth videos on your Windows PC with your NVIDIA RTX GPU.',
     prompts: [
       'Upscale this old 480p family video to 1080p and reduce the noise.',
       'Stabilize this shaky drone clip and raise it to 60 fps.',
@@ -46,6 +54,8 @@ const listing = {
   cad: {
     name: 'contentasoft-cad-converter', skill: 'contenta-cad', icon: 'docs/app-icons-512/cad_icon_512.png',
     short: 'Convert CAD and 3D files',
+    category: 'Creativity',
+    purpose: 'Convert CAD and 3D model files (STEP, IGES, STL, OBJ, FBX, glTF, 3MF) on your Windows PC, for 3D printing, the web or another CAD tool.',
     prompts: [
       'Convert every STEP file in this folder to STL for 3D printing.',
       'Turn this IGES assembly into a GLB I can view on the web.',
@@ -72,7 +82,7 @@ for (const app of apps) {
   // so the skill says so up front instead of failing.
   const skill = fs.readFileSync(path.join(contenta, 'ContentaSoft', 'skills', l.skill, 'SKILL.md'), 'utf8').replace(/\r\n/g, '\n');
   const end = skill.indexOf('\n---', 4) + 4;
-  const note = `\n\n> **Requires ${app.product} installed on this Windows PC** (free trial: ${app.downloadUrl}).` +
+  const note = `\n\n> **Requires ${app.product} installed on this Windows PC** (download: ${app.downloadUrl}).` +
     ` The commands below run the app's command-line tool on the user's own computer, so they work in Codex and other` +
     ` local agents. In ChatGPT, which cannot run programs on the user's computer, use this skill to choose the right` +
     ` command and give it to the user to run.\n`;
@@ -95,13 +105,15 @@ for (const app of apps) {
           displayName: app.product,
           shortDescription: l.short,
           longDescription:
-            `${app.product} is a Windows desktop app for ${app.summary}. This skill teaches the agent its command-line tool ` +
-            `(${app.exe.replace('.exe', '')}), so you can ask in plain words and the work runs on your own PC, on your own files, ` +
-            `with nothing uploaded. It needs ${app.product} installed (free trial at ${app.downloadUrl}). In Codex the agent ` +
-            `runs the commands for you; in ChatGPT it tells you which command to run.`,
+            `${l.purpose} ${app.product} is a Windows desktop app for ${app.summary}; this skill teaches the agent its ` +
+            `command-line tool (${app.exe.replace('.exe', '')}), so you ask in plain words and the work runs on your own PC, ` +
+            `on your own files, with nothing uploaded. It needs ${app.product} installed (${app.downloadUrl}). In Codex the ` +
+            `agent runs the commands for you; in ChatGPT it tells you which command to run. Support: bruno@contenta-software.com`,
           developerName: 'ContentaSoft AB',
-          category: 'Productivity',
+          category: l.category,
           websiteURL: app.websiteUrl,
+          // https only (the dashboard rejects mailto:); AIVE and CAD have no support page, so their contact is in the text.
+          ...(l.supportUrl ? { supportURL: l.supportUrl } : {}),
           privacyPolicyURL: app.privacyUrl,
           termsOfServiceURL: termsUrl(app),
           defaultPrompt: l.prompts,
