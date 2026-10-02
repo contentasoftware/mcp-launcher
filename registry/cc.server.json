@@ -6,7 +6,7 @@
   "version": "1.0.0",
   "websiteUrl": "https://www.contenta-converter.com/",
   "repository": {
-    "url": "https://github.com/ContentaSoft/mcp-launcher",
+    "url": "https://github.com/contentasoftware/mcp-launcher",
     "source": "github",
     "subfolder": "packages/contenta-converter-mcp"
   },

@@ -39,7 +39,7 @@ for (const app of apps) {
     description: `${app.product} on your Windows PC from Claude: ${app.summary}. Runs locally on your files.`,
     author: { name: 'ContentaSoft AB', url: 'https://www.contenta-software.com/' },
     homepage: app.websiteUrl,
-    repository: `https://github.com/ContentaSoft/${p.name}-plugin`,
+    repository: `https://github.com/contentasoftware/${p.name}-plugin`,
     license: 'MIT',
     keywords: ['windows', 'batch', 'mcp', ...app.summary.split(/[ ,/]+/).filter((w) => w.length > 3).slice(0, 5)],
   }, null, 2) + '\n');
@@ -66,7 +66,7 @@ your computer; nothing is uploaded to Anthropic or to ContentaSoft to do the wor
 - Windows 10 or 11 with **${app.product}** installed. It has a free trial: ${app.downloadUrl}
   (if it is not installed yet, the plugin's \`get_started\` tool gives Claude the download link and the steps).
 - Node.js, which runs the small launcher package \`${app.package}\` (MIT, source:
-  https://github.com/ContentaSoft/mcp-launcher). The launcher starts the app's own MCP server
+  https://github.com/contentasoftware/mcp-launcher). The launcher starts the app's own MCP server
   (\`${cli} serve\`) and passes its messages through; it sends nothing over the network itself.
 - Claude Code or Cowork on that computer. Chat on claude.ai cannot start local programs, so it does not load
   this plugin's tools.

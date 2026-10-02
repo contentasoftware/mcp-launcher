@@ -23,7 +23,7 @@
   "homepage": "https://www.contenta-software.com/videorecompress/",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/ContentaSoft/mcp-launcher.git",
+    "url": "git+https://github.com/contentasoftware/mcp-launcher.git",
     "directory": "packages/videorecompress-mcp"
   },
   "keywords": [

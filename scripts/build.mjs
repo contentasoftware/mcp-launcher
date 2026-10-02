@@ -8,7 +8,7 @@ const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const { version, apps } = JSON.parse(fs.readFileSync(path.join(root, 'apps.json'), 'utf8'));
 const launcher = fs.readFileSync(path.join(root, 'src', 'launcher.js'), 'utf8');
 const license = fs.readFileSync(path.join(root, 'LICENSE'), 'utf8');
-const repoUrl = 'https://github.com/ContentaSoft/mcp-launcher';
+const repoUrl = 'https://github.com/contentasoftware/mcp-launcher';
 
 const write = (file, text) => {
   fs.mkdirSync(path.dirname(file), { recursive: true });
