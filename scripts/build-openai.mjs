@@ -44,6 +44,7 @@ const listing = {
     name: 'contentasoft-ai-video-enhancer', skill: 'contenta-video-enhancer', icon: 'docs/app-icons-512/aive_icon_512.png',
     short: 'Upscale and fix videos locally',
     category: 'Creativity',
+    supportUrl: 'https://www.contenta-software.com/aivideoenhancer/support.php',
     purpose: 'Upscale, stabilize, denoise and smooth videos on your Windows PC with your NVIDIA RTX GPU.',
     prompts: [
       'Upscale this old 480p family video to 1080p and reduce the noise.',
@@ -55,6 +56,7 @@ const listing = {
     name: 'contentasoft-cad-converter', skill: 'contenta-cad', icon: 'docs/app-icons-512/cad_icon_512.png',
     short: 'Convert CAD and 3D files',
     category: 'Creativity',
+    supportUrl: 'https://www.contenta-software.com/3dcadconverter/support.php',
     purpose: 'Convert CAD and 3D model files (STEP, IGES, STL, OBJ, FBX, glTF, 3MF) on your Windows PC, for 3D printing, the web or another CAD tool.',
     prompts: [
       'Convert every STEP file in this folder to STL for 3D printing.',
