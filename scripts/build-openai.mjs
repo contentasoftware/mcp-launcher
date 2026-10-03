@@ -54,6 +54,8 @@ const listing = {
   },
   cad: {
     name: 'contentasoft-cad-converter', skill: 'contenta-cad', icon: 'docs/app-icons-512/cad_icon_512.png',
+    // The directory holds generic dictionary names; the product name alone is three common words.
+    displayName: 'ContentaSoft 3D CAD Converter',
     short: 'Convert CAD and 3D files',
     category: 'Creativity',
     supportUrl: 'https://www.contenta-software.com/3dcadconverter/support.php',
@@ -66,13 +68,51 @@ const listing = {
   },
 };
 
+// The directory's rules (developers.openai.com/plugins/plugin-guidelines) allow saying that a feature is
+// not in the user's plan, but not freemium upsells, upgrade promotion or collecting credentials. The public
+// skills say more than that (newsletter bonus, the register command, "prints Buy:"), so each OpenAI copy
+// gets a neutral limit sentence instead of the Trial paragraph and loses the licence-key commands.
+// Every edit must match exactly once: a skill that changes upstream fails the build instead of shipping
+// the old wording.
+const NO_KEYS = ' Licence keys are entered in the app, never through the agent.';
+const openaiEdits = {
+  cc: [
+    [/^contenta ai-transform (.*?)# needs GEMINI_API_KEY$/m, 'contenta ai-transform $1# needs GEMINI_API_KEY set on this PC by the user; never ask for the key'],
+    [/^contenta register <email> <key>\n/m, ''],
+    [/^- Trial: .*$/m, '- Without a licence nothing is limited in time: the first 10 outputs on this computer are clean, later ones carry a watermark, and PDF albums, merged PDFs and slideshows always do. `contenta status` shows how many clean outputs are left.' + NO_KEYS],
+  ],
+  vr: [
+    [/^videorecompress register <email> <key>\n/m, ''],
+    [/^- Trial: .*$/m, '- Without a licence nothing is limited in time: the first 10 files on this computer are unrestricted, later files are watermarked and cut at 10 minutes.' + NO_KEYS],
+  ],
+  aive: [
+    [/ `aivideoenhancer register <email> <key>` registers a license key\./, ''],
+    [/^- Trial: .*$/m, '- Without a licence nothing is limited in time: the first 5 full exports on this computer are full resolution without a watermark, later output is watermarked and capped at 1280x720. A remix render and an upscaled frame extraction each count as one export; `--clip` makes clean 10-second clips.' + NO_KEYS],
+  ],
+  cad: [
+    [/^cadconvert register -k <key> -e <email> .*\n/m, ''],
+    [/1 error \(also a rejected license key\)/, '1 error'],
+    [/^- Trial: .*$/m, '- Without a licence: 10 conversions at full quality within 30 days of the first launch. After that nothing is blocked: STEP/IGES/BREP to a mesh format is meshed at `draft` whatever `--quality` says, and every export carries a trial note (FBX gets draft only).' + NO_KEYS],
+  ],
+};
+const forOpenAI = (skill, key) => {
+  for (const [re, to] of openaiEdits[key]) {
+    if ((skill.match(new RegExp(re.source, re.flags.replace('g', '') + 'g')) || []).length !== 1) throw new Error(`${key}: expected exactly one match for ${re}`);
+    skill = skill.replace(re, to);
+  }
+  const left = skill.match(/register <|register -k|newsletter|Buy:|^- Trial:/m);
+  if (left) throw new Error(`${key}: OpenAI skill still contains "${left[0]}"`);
+  return skill;
+};
+
 const termsUrl = (app) => app.privacyUrl.replace('privacy.php', 'terms.php');
 const write = (file, data) => { fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, data); };
 
 fs.rmSync(out, { recursive: true, force: true });
 for (const app of apps) {
   const l = listing[app.key];
-  for (const [k, v] of [['short', l.short], ['displayName', app.product]]) if (v.length > 30) throw new Error(`${app.key} ${k} > 30: ${v}`);
+  const displayName = l.displayName || app.product;
+  for (const [k, v] of [['short', l.short], ['displayName', displayName]]) if (v.length > 30) throw new Error(`${app.key} ${k} > 30: ${v}`);
   for (const p of l.prompts) if (p.length > 128) throw new Error(`${app.key} prompt > 128: ${p}`);
   const dir = path.join(out, l.name);
 
@@ -82,7 +122,7 @@ for (const app of apps) {
 
   // The skill drives the app's CLI. Codex runs it on the user's PC; ChatGPT cannot run local programs,
   // so the skill says so up front instead of failing.
-  const skill = fs.readFileSync(path.join(contenta, 'ContentaSoft', 'skills', l.skill, 'SKILL.md'), 'utf8').replace(/\r\n/g, '\n');
+  const skill = forOpenAI(fs.readFileSync(path.join(contenta, 'ContentaSoft', 'skills', l.skill, 'SKILL.md'), 'utf8').replace(/\r\n/g, '\n'), app.key);
   const end = skill.indexOf('\n---', 4) + 4;
   const note = `\n\n> **Requires ${app.product} installed on this Windows PC** (download: ${app.downloadUrl}).` +
     ` The commands below run the app's command-line tool on the user's own computer, so they work in Codex and other` +
@@ -104,7 +144,7 @@ for (const app of apps) {
     extensions: {
       'com.openai': {
         interface: {
-          displayName: app.product,
+          displayName,
           shortDescription: l.short,
           longDescription:
             `${l.purpose} ${app.product} is a Windows desktop app for ${app.summary}; this skill teaches the agent its ` +
