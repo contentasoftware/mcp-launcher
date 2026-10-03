@@ -21,7 +21,7 @@ download link and the install steps instead.
 Claude Code (Windows):
 
 ```
-claude mcp add videorecompress-studio -- cmd /c npx -y @contentasoft/videorecompress-mcp@1.0.0
+claude mcp add videorecompress-studio -- cmd /c npx -y @contentasoft/videorecompress-mcp@1.0.1
 ```
 
 Claude Desktop, Cursor and other clients that use `mcpServers` (JSON):
@@ -29,7 +29,7 @@ Claude Desktop, Cursor and other clients that use `mcpServers` (JSON):
 ```json
 {
   "mcpServers": {
-    "videorecompress-studio": { "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/videorecompress-mcp@1.0.0"] }
+    "videorecompress-studio": { "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/videorecompress-mcp@1.0.1"] }
   }
 }
 ```
@@ -39,17 +39,17 @@ VS Code (`.vscode/mcp.json`, note the `servers` key):
 ```json
 {
   "servers": {
-    "videorecompress-studio": { "type": "stdio", "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/videorecompress-mcp@1.0.0"] }
+    "videorecompress-studio": { "type": "stdio", "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/videorecompress-mcp@1.0.1"] }
   }
 }
 ```
 
-Codex (`codex mcp add videorecompress-studio -- cmd /c npx -y @contentasoft/videorecompress-mcp@1.0.0`, or `~/.codex/config.toml`):
+Codex (`codex mcp add videorecompress-studio -- cmd /c npx -y @contentasoft/videorecompress-mcp@1.0.1`, or `~/.codex/config.toml`):
 
 ```toml
 [mcp_servers.videorecompress-studio]
 command = "cmd"
-args = ["/c", "npx", "-y", "@contentasoft/videorecompress-mcp@1.0.0"]
+args = ["/c", "npx", "-y", "@contentasoft/videorecompress-mcp@1.0.1"]
 startup_timeout_sec = 60
 tool_timeout_sec = 3600
 ```
@@ -67,8 +67,7 @@ Once the app is installed you can also skip the launcher: `"command": "videoreco
 - The app works on local files on your PC. It sends anonymous usage telemetry (which tools ran, which MCP
   client connected, trial state) to ContentaSoft; turn it off in the app's settings. Privacy policy:
   https://www.contenta-software.com/videorecompress/privacy.php
-- During the trial some output is watermarked or limited; after the trial, tools that write files answer
-  with a link to buy a license instead of running.
+- The free trial has no end date: the first 10 files per PC are unrestricted, later ones are watermarked and cut at 10 minutes. `videorecompress status` shows how many free files are left; a batch spends one per file. Nothing stops working; a licence removes the limits.
 
 ## License
 

@@ -3,7 +3,7 @@
   "name": "com.contenta-software/contenta-converter",
   "title": "Contenta Converter",
   "description": "Batch-convert, resize and edit images on your Windows PC: 100+ formats, PDF albums, metadata",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "websiteUrl": "https://www.contenta-converter.com/",
   "repository": {
     "url": "https://github.com/contentasoftware/mcp-launcher",
@@ -14,7 +14,7 @@
     {
       "registryType": "npm",
       "identifier": "@contentasoft/contenta-converter-mcp",
-      "version": "1.0.0",
+      "version": "1.0.1",
       "transport": {
         "type": "stdio"
       }

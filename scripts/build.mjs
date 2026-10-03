@@ -3,6 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { trial, trialTail } from './texts.mjs';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const { version, apps } = JSON.parse(fs.readFileSync(path.join(root, 'apps.json'), 'utf8'));
@@ -109,8 +110,7 @@ Once the app is installed you can also skip the launcher: \`"command": "${app.ex
 - The app works on local files on your PC. It sends anonymous usage telemetry (which tools ran, which MCP
   client connected, trial state) to ContentaSoft; turn it off in the app's settings. Privacy policy:
   ${app.privacyUrl}${app.networkNote ? `\n- ${app.networkNote}` : ''}
-- During the trial some output is watermarked or limited; after the trial, tools that write files answer
-  with a link to buy a license instead of running.
+- ${trial[app.key]} ${trialTail}
 
 ## License
 

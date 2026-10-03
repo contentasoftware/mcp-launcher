@@ -21,7 +21,7 @@ download link and the install steps instead.
 Claude Code (Windows):
 
 ```
-claude mcp add contenta-converter -- cmd /c npx -y @contentasoft/contenta-converter-mcp@1.0.0
+claude mcp add contenta-converter -- cmd /c npx -y @contentasoft/contenta-converter-mcp@1.0.1
 ```
 
 Claude Desktop, Cursor and other clients that use `mcpServers` (JSON):
@@ -29,7 +29,7 @@ Claude Desktop, Cursor and other clients that use `mcpServers` (JSON):
 ```json
 {
   "mcpServers": {
-    "contenta-converter": { "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/contenta-converter-mcp@1.0.0"] }
+    "contenta-converter": { "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/contenta-converter-mcp@1.0.1"] }
   }
 }
 ```
@@ -39,17 +39,17 @@ VS Code (`.vscode/mcp.json`, note the `servers` key):
 ```json
 {
   "servers": {
-    "contenta-converter": { "type": "stdio", "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/contenta-converter-mcp@1.0.0"] }
+    "contenta-converter": { "type": "stdio", "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/contenta-converter-mcp@1.0.1"] }
   }
 }
 ```
 
-Codex (`codex mcp add contenta-converter -- cmd /c npx -y @contentasoft/contenta-converter-mcp@1.0.0`, or `~/.codex/config.toml`):
+Codex (`codex mcp add contenta-converter -- cmd /c npx -y @contentasoft/contenta-converter-mcp@1.0.1`, or `~/.codex/config.toml`):
 
 ```toml
 [mcp_servers.contenta-converter]
 command = "cmd"
-args = ["/c", "npx", "-y", "@contentasoft/contenta-converter-mcp@1.0.0"]
+args = ["/c", "npx", "-y", "@contentasoft/contenta-converter-mcp@1.0.1"]
 startup_timeout_sec = 60
 tool_timeout_sec = 3600
 ```
@@ -68,8 +68,7 @@ Once the app is installed you can also skip the launcher: `"command": "contenta"
   client connected, trial state) to ContentaSoft; turn it off in the app's settings. Privacy policy:
   https://www.contenta-converter.com/privacy.php
 - ai_transform sends the image to Google Gemini with your own Gemini API key.
-- During the trial some output is watermarked or limited; after the trial, tools that write files answer
-  with a link to buy a license instead of running.
+- The free trial has no end date: the first 10 outputs per PC come out clean, later ones carry a trial watermark (PDF albums, merged PDFs and slideshows are always marked on the trial). `contenta status` shows how many clean outputs are left; a batch spends one per file. Nothing stops working; a licence removes the limits.
 
 ## License
 
