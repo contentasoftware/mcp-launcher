@@ -102,6 +102,13 @@ const forOpenAI = (skill, key) => {
   }
   const left = skill.match(/register <|register -k|newsletter|Buy:|^- Trial:/m);
   if (left) throw new Error(`${key}: OpenAI skill still contains "${left[0]}"`);
+  // Codex on Windows runs PowerShell (learn.chatgpt.com/docs/windows/windows-app), so the examples are
+  // PowerShell here: forward-slash paths work there too, but PowerShell expands no globs and has no /dev/null.
+  skill = skill.replace(/```bash/g, '```powershell')
+    .replace(/ \.\/photos\/\*\.jpg /g, ' (Get-ChildItem ./photos/*.jpg).FullName ')
+    .replace(/2>\/dev\/null/g, '2>$null');
+  // Codex reads only name and description from the frontmatter; allowed-tools is a Claude Code field.
+  skill = skill.replace(/^allowed-tools:.*\n/m, '');
   return skill;
 };
 
@@ -126,8 +133,9 @@ for (const app of apps) {
   const end = skill.indexOf('\n---', 4) + 4;
   const note = `\n\n> **Requires ${app.product} installed on this Windows PC** (download: ${app.downloadUrl}).` +
     ` The commands below run the app's command-line tool on the user's own computer, so they work in Codex and other` +
-    ` local agents. In ChatGPT, which cannot run programs on the user's computer, use this skill to choose the right` +
-    ` command and give it to the user to run.\n`;
+    ` local agents (Codex on Windows runs them in PowerShell; the examples are written for it). In ChatGPT, which` +
+    ` cannot run programs on the user's computer, use this skill to choose the right command and give it to the user` +
+    ` to run. Codex can also use the app's MCP tools: \`codex mcp add ${app.serverName} -- ${app.exe.replace('.exe', '')} serve\`.\n`;
   write(path.join(dir, 'skills', l.skill, 'SKILL.md'), skill.slice(0, end) + note + skill.slice(end));
   write(path.join(dir, 'LICENSE'), license);
 
