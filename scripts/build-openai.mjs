@@ -106,7 +106,8 @@ const forOpenAI = (skill, key) => {
   // PowerShell here: forward-slash paths work there too, but PowerShell expands no globs and has no /dev/null.
   skill = skill.replace(/```bash/g, '```powershell')
     .replace(/ \.\/photos\/\*\.jpg /g, ' (Get-ChildItem ./photos/*.jpg).FullName ')
-    .replace(/2>\/dev\/null/g, '2>$null');
+    .replace(/2>\/dev\/null/g, '2>$null')
+    .replace(/^- The examples are for Git Bash.*$/m, '- The examples are PowerShell, which Codex uses on Windows; forward-slash paths work there. In bash (WSL, Git Bash) write `./photos/*.jpg` instead of the `Get-ChildItem` form, since bash expands the glob itself.');
   // Codex reads only name and description from the frontmatter; allowed-tools is a Claude Code field.
   skill = skill.replace(/^allowed-tools:.*\n/m, '');
   return skill;
