@@ -21,7 +21,7 @@ download link and the install steps instead.
 Claude Code (Windows):
 
 ```
-claude mcp add videorecompress-studio -- cmd /c npx -y @contentasoft/videorecompress-mcp@1.0.1
+claude mcp add videorecompress-studio -- cmd /c npx -y @contentasoft/videorecompress-mcp@1.0.2
 ```
 
 Claude Desktop, Cursor and other clients that use `mcpServers` (JSON):
@@ -29,7 +29,7 @@ Claude Desktop, Cursor and other clients that use `mcpServers` (JSON):
 ```json
 {
   "mcpServers": {
-    "videorecompress-studio": { "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/videorecompress-mcp@1.0.1"] }
+    "videorecompress-studio": { "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/videorecompress-mcp@1.0.2"] }
   }
 }
 ```
@@ -39,17 +39,17 @@ VS Code (`.vscode/mcp.json`, note the `servers` key):
 ```json
 {
   "servers": {
-    "videorecompress-studio": { "type": "stdio", "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/videorecompress-mcp@1.0.1"] }
+    "videorecompress-studio": { "type": "stdio", "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/videorecompress-mcp@1.0.2"] }
   }
 }
 ```
 
-Codex (`codex mcp add videorecompress-studio -- cmd /c npx -y @contentasoft/videorecompress-mcp@1.0.1`, or `~/.codex/config.toml`):
+Codex (`codex mcp add videorecompress-studio -- cmd /c npx -y @contentasoft/videorecompress-mcp@1.0.2`, or `~/.codex/config.toml`):
 
 ```toml
 [mcp_servers.videorecompress-studio]
 command = "cmd"
-args = ["/c", "npx", "-y", "@contentasoft/videorecompress-mcp@1.0.1"]
+args = ["/c", "npx", "-y", "@contentasoft/videorecompress-mcp@1.0.2"]
 startup_timeout_sec = 60
 tool_timeout_sec = 3600
 ```

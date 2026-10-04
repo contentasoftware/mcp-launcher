@@ -1,6 +1,6 @@
 {
   "name": "@contentasoft/videorecompress-mcp",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "MCP server for VideoRecompress Studio — Shrink video files on your Windows PC with H.265/AV1 and GPU encoding, a whole folder at a time",
   "mcpName": "com.contenta-software/videorecompress",
   "bin": {
