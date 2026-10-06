@@ -5,7 +5,7 @@
 // Run `npm run openai`, then upload each ZIP at https://platform.openai.com/plugins.
 import fs from 'node:fs';
 import path from 'node:path';
-import { execFileSync } from 'node:child_process';
+import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
@@ -113,6 +113,55 @@ const forOpenAI = (skill, key) => {
   return skill;
 };
 
+/**
+ * Writes `dir` as a ZIP with the package contents at the archive root. Done here instead of with
+ * PowerShell's Compress-Archive, which wrote backslash entry names under Windows PowerShell 5.1 (the
+ * directory requires forward slashes) and skipped a file another process held open without failing.
+ * Entry names use forward slashes and are sorted; the timestamp is fixed, so the same input gives the
+ * same bytes. A file that cannot be read throws. Returns the entry names.
+ */
+function writeZip(zipPath, dir) {
+  const names = [];
+  const walk = (rel) => {
+    for (const e of fs.readdirSync(path.join(dir, rel), { withFileTypes: true })) {
+      const child = rel ? `${rel}/${e.name}` : e.name;
+      if (e.isDirectory()) walk(child); else names.push(child);
+    }
+  };
+  walk('');
+  names.sort();
+  const DOS_DATE = ((2026 - 1980) << 9) | (1 << 5) | 1; // 2026-01-01
+  const UTF8 = 0x0800, DEFLATE = 8, VERSION = 20;
+  const chunks = [];
+  const central = [];
+  let offset = 0;
+  for (const name of names) {
+    const data = fs.readFileSync(path.join(dir, name));
+    const packed = zlib.deflateRawSync(data, { level: 9 });
+    const nameBytes = Buffer.from(name, 'utf8');
+    const crc = zlib.crc32(data);
+    const local = Buffer.alloc(30);
+    local.writeUInt32LE(0x04034b50, 0); local.writeUInt16LE(VERSION, 4); local.writeUInt16LE(UTF8, 6);
+    local.writeUInt16LE(DEFLATE, 8); local.writeUInt16LE(0, 10); local.writeUInt16LE(DOS_DATE, 12);
+    local.writeUInt32LE(crc, 14); local.writeUInt32LE(packed.length, 18); local.writeUInt32LE(data.length, 22);
+    local.writeUInt16LE(nameBytes.length, 26); local.writeUInt16LE(0, 28);
+    const head = Buffer.alloc(46);
+    head.writeUInt32LE(0x02014b50, 0); head.writeUInt16LE(VERSION, 4); head.writeUInt16LE(VERSION, 6);
+    head.writeUInt16LE(UTF8, 8); head.writeUInt16LE(DEFLATE, 10); head.writeUInt16LE(0, 12); head.writeUInt16LE(DOS_DATE, 14);
+    head.writeUInt32LE(crc, 16); head.writeUInt32LE(packed.length, 20); head.writeUInt32LE(data.length, 24);
+    head.writeUInt16LE(nameBytes.length, 28); head.writeUInt32LE(offset, 42);
+    central.push(head, nameBytes);
+    chunks.push(local, nameBytes, packed);
+    offset += local.length + nameBytes.length + packed.length;
+  }
+  const centralSize = central.reduce((n, b) => n + b.length, 0);
+  const end = Buffer.alloc(22);
+  end.writeUInt32LE(0x06054b50, 0); end.writeUInt16LE(names.length, 8); end.writeUInt16LE(names.length, 10);
+  end.writeUInt32LE(centralSize, 12); end.writeUInt32LE(offset, 16);
+  fs.writeFileSync(zipPath, Buffer.concat([...chunks, ...central, end]));
+  return names;
+}
+
 const termsUrl = (app) => app.privacyUrl.replace('privacy.php', 'terms.php');
 const write = (file, data) => { fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, data); };
 
@@ -176,7 +225,9 @@ for (const app of apps) {
   }, null, 2) + '\n');
 
   const zip = path.join(out, `${l.name}.zip`);
-  execFileSync('powershell.exe', ['-NoProfile', '-Command',
-    `Compress-Archive -Path '${dir}\\*' -DestinationPath '${zip}' -Force`]);
-  console.log(`openai package ${l.name} -> ${zip} (${fs.statSync(zip).size} bytes)`);
+  const entries = writeZip(zip, dir);
+  for (const need of ['plugin.json', 'LICENSE', `skills/${l.skill}/SKILL.md`, 'assets/icon.png', 'assets/logo.png']) {
+    if (!entries.includes(need)) throw new Error(`${l.name}.zip is missing ${need}`);
+  }
+  console.log(`openai package ${l.name} -> ${zip} (${fs.statSync(zip).size} bytes, ${entries.length} files)`);
 }

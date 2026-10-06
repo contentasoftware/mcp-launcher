@@ -3,7 +3,7 @@
   "name": "com.contenta-software/ai-video-enhancer",
   "title": "AI Video Enhancer Studio",
   "description": "Upscale, stabilize, denoise and raise the frame rate of videos locally on your NVIDIA GPU",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "websiteUrl": "https://www.contenta-software.com/aivideoenhancer/",
   "repository": {
     "url": "https://github.com/contentasoftware/mcp-launcher",
@@ -14,7 +14,7 @@
     {
       "registryType": "npm",
       "identifier": "@contentasoft/ai-video-enhancer-mcp",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "transport": {
         "type": "stdio"
       }

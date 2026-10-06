@@ -3,7 +3,7 @@
   "name": "com.contenta-software/videorecompress",
   "title": "VideoRecompress Studio",
   "description": "Shrink video files on your Windows PC with H.265/AV1 and GPU encoding, a whole folder at a time",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "websiteUrl": "https://www.contenta-software.com/videorecompress/",
   "repository": {
     "url": "https://github.com/contentasoftware/mcp-launcher",
@@ -14,7 +14,7 @@
     {
       "registryType": "npm",
       "identifier": "@contentasoft/videorecompress-mcp",
-      "version": "1.0.2",
+      "version": "1.0.3",
       "transport": {
         "type": "stdio"
       }
