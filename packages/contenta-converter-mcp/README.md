@@ -21,7 +21,7 @@ download link and the install steps instead.
 Claude Code (Windows):
 
 ```
-claude mcp add contenta-converter -- cmd /c npx -y @contentasoft/contenta-converter-mcp@1.0.3
+claude mcp add contenta-converter -- cmd /c npx -y @contentasoft/contenta-converter-mcp@1.0.4
 ```
 
 Claude Desktop, Cursor and other clients that use `mcpServers` (JSON):
@@ -29,7 +29,7 @@ Claude Desktop, Cursor and other clients that use `mcpServers` (JSON):
 ```json
 {
   "mcpServers": {
-    "contenta-converter": { "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/contenta-converter-mcp@1.0.3"] }
+    "contenta-converter": { "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/contenta-converter-mcp@1.0.4"] }
   }
 }
 ```
@@ -39,17 +39,17 @@ VS Code (`.vscode/mcp.json`, note the `servers` key):
 ```json
 {
   "servers": {
-    "contenta-converter": { "type": "stdio", "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/contenta-converter-mcp@1.0.3"] }
+    "contenta-converter": { "type": "stdio", "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/contenta-converter-mcp@1.0.4"] }
   }
 }
 ```
 
-Codex (`codex mcp add contenta-converter -- cmd /c npx -y @contentasoft/contenta-converter-mcp@1.0.3`, or `~/.codex/config.toml`):
+Codex (`codex mcp add contenta-converter -- cmd /c npx -y @contentasoft/contenta-converter-mcp@1.0.4`, or `~/.codex/config.toml`):
 
 ```toml
 [mcp_servers.contenta-converter]
 command = "cmd"
-args = ["/c", "npx", "-y", "@contentasoft/contenta-converter-mcp@1.0.3"]
+args = ["/c", "npx", "-y", "@contentasoft/contenta-converter-mcp@1.0.4"]
 startup_timeout_sec = 60
 tool_timeout_sec = 3600
 ```

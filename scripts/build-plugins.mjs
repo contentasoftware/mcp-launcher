@@ -11,7 +11,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { trial, trialTail, repoName, claudeInstall } from './texts.mjs';
+import { trial, trialTail, repoName, claudeInstall, askExamples, desktopWindow, priceLine, developer, telemetrySwitch, localWork, cadFormats } from './texts.mjs';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const { version, apps } = JSON.parse(fs.readFileSync(path.join(root, 'apps.json'), 'utf8'));
@@ -197,12 +197,32 @@ for (const app of apps) {
   write(path.join(dir, 'LICENSE'), license);
   write(path.join(dir, '.gitattributes'), '* text=auto eol=lf\n*.cmd text eol=crlf\n');
 
+  const dev = developer[app.key];
+  const sw = telemetrySwitch[app.key];
+  const formats = app.key === 'cad' ? `
+## Formats
+
+- Reads ${cadFormats.read}.
+- Writes ${cadFormats.write}.
+- ${cadFormats.native}
+` : '';
   write(path.join(dir, 'README.md'), `# ${app.product} plugin
 
-Use **${app.product}** from your AI agent on your Windows PC: ${app.summary}. The agent calls the app's tools
-on files on your computer; nothing is uploaded to the model provider or to ContentaSoft to do the work. It works
-with any agent that runs local MCP servers: Cursor, Claude Code, Codex, VS Code, Windsurf and others.
+Use **${app.product}** from your AI agent on your Windows PC: ${app.summary}. You ask in plain words and the
+agent does the work on files on your computer. It works with any agent that runs local MCP servers: Cursor,
+Claude Code, Codex, VS Code, Windsurf and others.
 
+## Ask your agent
+
+${askExamples[app.key].map((e) => `- "${e}"`).join('\n')}
+
+${desktopWindow(app.product)}
+
+## Price and trial
+
+- ${priceLine(app.key)}
+- ${trial[app.key]} ${trialTail}
+${formats}
 ## Install
 
 **Claude Code** (Windows): two commands, typed inside Claude Code. This repository is its own one-plugin
@@ -236,7 +256,30 @@ Client-by-client instructions: https://www.npmjs.com/package/${app.package}
   says whether it only reads files, writes new files, may overwrite files, or uses the internet.
 - **Skill** \`${p.skill}\`: how and when the agent should use those tools and the \`${cli}\` command line.
 
-## What runs and what is sent
+## For developers
+
+- Windows 10 and 11, 64-bit only. There is no macOS or Linux version.
+- \`${cli}\` never waits for input or shows a dialog, so it runs unattended from Task Scheduler or a script.
+  ${dev.scheduleNote}
+
+  \`\`\`
+  ${dev.schedule}
+  \`\`\`
+- ${dev.json}
+- Exit codes: ${dev.exit}
+- The full command reference is the skill: \`skills/${p.skill}/SKILL.md\`.
+
+## Privacy
+
+${localWork[app.key].map((b) => `- ${b}`).join('\n')}
+- The app sends usage statistics (which tools ran, which MCP client connected, trial state) and crash reports to
+  ContentaSoft, tagged with a hashed machine ID. They never contain your files; a crash report can contain a file
+  name, but folder paths are removed. To turn them off, open the app and
+  go to Settings, Privacy: Send usage statistics and crash reports. The same switch covers the command line and the
+  MCP server. On a PC where nobody opens the app, set \`"${sw.key}": false\` in \`${sw.file}\`.
+- Privacy policy, with the full list of what is sent: ${app.privacyUrl}
+
+## What runs
 
 - As a Claude plugin it runs \`server/launch.cmd\` from the plugin folder, which looks for \`${app.exe}\` in the app's
   install folder (\`%LOCALAPPDATA%\\Programs\\${app.installFolder}\`), on your \`PATH\` or in \`Program Files\`, and runs
@@ -245,9 +288,6 @@ Client-by-client instructions: https://www.npmjs.com/package/${app.package}
   or, without Node.js, the Windows PowerShell stub \`server/stub.ps1\` serves one tool, \`get_started\`. Neither sends
   anything over the network.
 - The skill may only run the app's own command-line tool (\`allowed-tools: Bash(${cli}:*)\`).
-- The app processes local files only. It sends anonymous usage telemetry (which tools ran, which MCP client
-  connected, trial state) to ContentaSoft; turn it off in the app's settings. Privacy policy: ${app.privacyUrl}${app.networkNote ? `\n- ${app.networkNote}` : ''}
-- ${trial[app.key]} ${trialTail}
 
 ## License
 

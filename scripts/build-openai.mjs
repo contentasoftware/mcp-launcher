@@ -7,6 +7,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
+import { desktopWindow, cadFormats } from './texts.mjs';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const contenta = path.resolve(root, '..');
@@ -207,8 +208,9 @@ for (const app of apps) {
           longDescription:
             `${l.purpose} ${app.product} is a Windows desktop app for ${app.summary}; this skill teaches the agent its ` +
             `command-line tool (${app.exe.replace('.exe', '')}), so you ask in plain words and the work runs on your own PC, ` +
-            `on your own files, with nothing uploaded. It needs ${app.product} installed (${app.downloadUrl}). In Codex the ` +
-            `agent runs the commands for you; in ChatGPT it tells you which command to run. Support: bruno@contenta-software.com`,
+            `on your own files. It needs ${app.product} installed (${app.downloadUrl}). In Codex the ` +
+            `agent runs the commands for you; in ChatGPT it tells you which command to run. ${desktopWindow(app.product)}` +
+            `${app.key === 'cad' ? ` ${cadFormats.native}` : ''} Support: bruno@contenta-software.com`,
           developerName: 'ContentaSoft AB',
           category: l.category,
           websiteURL: app.websiteUrl,
@@ -223,6 +225,12 @@ for (const app of apps) {
       },
     },
   }, null, 2) + '\n');
+
+  // The directory forbids pricing, trial and promotion text in the listing (the skill's neutral limit
+  // sentence is checked in forOpenAI).
+  const listingText = fs.readFileSync(path.join(dir, 'plugin.json'), 'utf8');
+  const promo = listingText.match(/\$\d|subscription|free trial|buy\.php|one-time|discount/i);
+  if (promo) throw new Error(`${l.name}: OpenAI listing contains "${promo[0]}"`);
 
   const zip = path.join(out, `${l.name}.zip`);
   const entries = writeZip(zip, dir);
