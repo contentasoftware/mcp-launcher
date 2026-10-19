@@ -16,7 +16,7 @@
       "websiteUrl": "https://www.contenta-converter.com/",
       "downloadUrl": "https://www.contenta-converter.com/download.php",
       "privacyUrl": "https://www.contenta-converter.com/privacy.php",
-      "tools": ["convert_image", "batch_convert", "ai_transform", "create_pdf_album", "create_slideshow", "merge_pdfs", "detect_format", "list_effects", "read_metadata", "write_metadata"],
+      "tools": ["convert_image", "batch_convert", "ai_transform", "create_pdf_album", "create_slideshow", "merge_pdfs", "detect_format", "get_file_info", "list_formats", "list_effects", "read_metadata", "write_metadata", "get_license_status"],
       "networkNote": "ai_transform sends the image to Google Gemini with your own Gemini API key."
     },
     {
@@ -34,7 +34,7 @@
       "websiteUrl": "https://www.contenta-software.com/videorecompress/",
       "downloadUrl": "https://www.contenta-software.com/videorecompress/download.php",
       "privacyUrl": "https://www.contenta-software.com/videorecompress/privacy.php",
-      "tools": ["recompress_video", "batch_recompress", "analyze_video", "estimate_savings", "list_presets"],
+      "tools": ["recompress_video", "batch_recompress", "get_file_info", "estimate_savings", "list_presets", "list_formats", "get_license_status", "analyze_video"],
       "networkNote": ""
     },
     {
@@ -52,7 +52,7 @@
       "websiteUrl": "https://www.contenta-software.com/aivideoenhancer/",
       "downloadUrl": "https://www.contenta-software.com/aivideoenhancer/download.php",
       "privacyUrl": "https://www.contenta-software.com/aivideoenhancer/privacy.php",
-      "tools": ["enhance_video", "analyze_video", "get_status", "list_presets"],
+      "tools": ["enhance_video", "get_file_info", "get_status", "list_presets", "list_formats", "get_license_status", "analyze_video"],
       "networkNote": ""
     },
     {
@@ -70,7 +70,7 @@
       "websiteUrl": "https://www.contenta-software.com/3dcadconverter/",
       "downloadUrl": "https://www.contenta-software.com/3dcadconverter/download.php",
       "privacyUrl": "https://www.contenta-software.com/3dcadconverter/privacy.php",
-      "tools": ["convert_cad", "detect_format", "get_file_info", "list_formats"],
+      "tools": ["convert_cad", "detect_format", "get_file_info", "list_formats", "get_license_status"],
       "networkNote": ""
     }
   ]

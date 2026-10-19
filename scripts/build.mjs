@@ -3,7 +3,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { trial, trialTail } from './texts.mjs';
+import { trial, trialTail, reference } from './texts.mjs';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const { version, apps } = JSON.parse(fs.readFileSync(path.join(root, 'apps.json'), 'utf8'));
@@ -58,6 +58,9 @@ This package is a small launcher. It finds ${app.product} on your PC (\`${app.ex
 
 If the app is not installed yet, the launcher serves a single \`get_started\` tool that gives your agent the
 download link and the install steps instead.
+
+Full CLI and MCP reference: ${reference[app.key].mcp} (MCP tools and their parameters) and
+${reference[app.key].cli} (the command line).
 
 ## Add it to your client
 

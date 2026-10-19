@@ -11,10 +11,13 @@ VideoRecompress Studio is a Windows 10/11 desktop app with a free trial: https:/
 
 This package is a small launcher. It finds VideoRecompress Studio on your PC (`videorecompress.exe`, installed per-user in
 `%LOCALAPPDATA%\Programs\VideoRecompressStudio` or on your `PATH`) and runs the app's own MCP server
-(`videorecompress serve`) over stdio. Tools: `recompress_video`, `batch_recompress`, `analyze_video`, `estimate_savings`, `list_presets`.
+(`videorecompress serve`) over stdio. Tools: `recompress_video`, `batch_recompress`, `get_file_info`, `estimate_savings`, `list_presets`, `list_formats`, `get_license_status`, `analyze_video`.
 
 If the app is not installed yet, the launcher serves a single `get_started` tool that gives your agent the
 download link and the install steps instead.
+
+Full CLI and MCP reference: https://github.com/brunojanvier77/ContentaSoft/blob/main/videorecompress/mcp-server.md (MCP tools and their parameters) and
+https://github.com/brunojanvier77/ContentaSoft/blob/main/videorecompress/cli.md (the command line).
 
 ## Add it to your client
 

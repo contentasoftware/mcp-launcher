@@ -11,10 +11,13 @@ Lets an AI agent (Claude Code, Claude Desktop/Cowork, Codex, Cursor, VS Code and
 
 This package is a small launcher. It finds 3D CAD Converter on your PC (`cadconvert.exe`, installed per-user in
 `%LOCALAPPDATA%\Programs\CadConverter` or on your `PATH`) and runs the app's own MCP server
-(`cadconvert serve`) over stdio. Tools: `convert_cad`, `detect_format`, `get_file_info`, `list_formats`.
+(`cadconvert serve`) over stdio. Tools: `convert_cad`, `detect_format`, `get_file_info`, `list_formats`, `get_license_status`.
 
 If the app is not installed yet, the launcher serves a single `get_started` tool that gives your agent the
 download link and the install steps instead.
+
+Full CLI and MCP reference: https://github.com/brunojanvier77/ContentaSoft/blob/main/cad-converter/mcp-server.md (MCP tools and their parameters) and
+https://github.com/brunojanvier77/ContentaSoft/blob/main/cad-converter/cli.md (the command line).
 
 ## Add it to your client
 

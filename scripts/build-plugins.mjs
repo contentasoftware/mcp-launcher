@@ -11,7 +11,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { trial, trialTail, repoName, claudeInstall, askExamples, audience, desktopWindow, priceLine, developer, telemetrySwitch, localWork, cadFormats } from './texts.mjs';
+import { trial, trialTail, repoName, claudeInstall, askExamples, audience, desktopWindow, priceLine, developer, telemetrySwitch, localWork, cadFormats, reference } from './texts.mjs';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const { version, apps } = JSON.parse(fs.readFileSync(path.join(root, 'apps.json'), 'utf8'));
@@ -267,7 +267,14 @@ Client-by-client instructions: https://www.npmjs.com/package/${app.package}
   \`\`\`
 - ${dev.json}
 - Exit codes: ${dev.exit}
-- The full command reference is the skill: \`skills/${p.skill}/SKILL.md\`.
+- The skill (\`skills/${p.skill}/SKILL.md\`) tells the agent which commands to use.
+
+## Full CLI and MCP reference
+
+Every \`${cli}\` command, option and exit code, the JSON output and every MCP tool with its parameters:
+
+- Command line: ${reference[app.key].cli}
+- MCP server: ${reference[app.key].mcp}
 
 ## Privacy
 

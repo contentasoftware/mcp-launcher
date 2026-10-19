@@ -80,19 +80,18 @@ const openaiEdits = {
   cc: [
     [/^contenta ai-transform (.*?)# needs GEMINI_API_KEY$/m, 'contenta ai-transform $1# needs GEMINI_API_KEY set on this PC by the user; never ask for the key'],
     [/^contenta register <email> <key>\n/m, ''],
-    [/^- Trial: .*$/m, '- Without a licence nothing is limited in time: the first 10 outputs on this computer are clean, later ones carry a watermark, and PDF albums, merged PDFs and slideshows always do. `contenta status` shows how many clean outputs are left; before a batch, check it and tell the user up front how many of the files will come out clean and that the rest will carry a watermark.' + NO_KEYS],
+    [/^- Trial: .*$/m, '- Without a licence nothing is limited in time: the first 10 outputs on this computer are clean, later ones carry a watermark, and PDF albums, merged PDFs and slideshows always do. `contenta status --json` shows how many clean outputs are left (`license.freeFilesRemaining`); before a batch, check it and tell the user up front how many of the files will come out clean and that the rest will carry a watermark.' + NO_KEYS],
   ],
   vr: [
     [/^videorecompress register <email> <key>\n/m, ''],
-    [/^- Trial: .*$/m, '- Without a licence nothing is limited in time: the first 10 files on this computer are unrestricted, later files are watermarked and cut at 10 minutes. Before a batch, check `videorecompress status --json` (`freeFilesRemaining`) and tell the user up front how many of the videos will come out clean and that the rest will be watermarked and cut at 10 minutes.' + NO_KEYS],
+    [/^- Trial: .*$/m, '- Without a licence nothing is limited in time: the first 10 files on this computer are unrestricted, later files are watermarked and cut at 10 minutes. Before a batch, check `videorecompress status --json` (`license.freeFilesRemaining`) and tell the user up front how many of the videos will come out clean and that the rest will be watermarked and cut at 10 minutes.' + NO_KEYS],
   ],
   aive: [
     [/ `aivideoenhancer register <email> <key>` registers a license key\./, ''],
-    [/^- Trial: .*$/m, '- Without a licence nothing is limited in time: the first 5 full exports on this computer are full resolution without a watermark, later output is watermarked and capped at 1280x720. A remix render and an upscaled frame extraction each count as one export; `--clip` makes clean 10-second clips. Before a batch or a long job, run `aivideoenhancer status` (its License line shows the full exports left) and tell the user up front how many are left and that later ones will be watermarked and capped at 1280x720.' + NO_KEYS],
+    [/^- Trial: .*$/m, '- Without a licence nothing is limited in time: the first 5 full exports on this computer are full resolution without a watermark, later output is watermarked and capped at 1280x720. A remix render and an upscaled frame extraction each count as one export; `--clip` makes clean 10-second clips. Before a batch or a long job, run `aivideoenhancer status --json` (`license.freeFilesRemaining` is the full exports left) and tell the user up front how many are left and that later ones will be watermarked and capped at 1280x720.' + NO_KEYS],
   ],
   cad: [
-    [/^cadconvert register -k <key> -e <email> .*\n/m, ''],
-    [/1 error \(also a rejected license key\)/, '1 error'],
+    [/^cadconvert register <email> <key>.*\n/m, ''],
     [/^- Trial: .*$/m, '- Without a licence: 10 conversions at full quality within 30 days of the first launch. After that nothing is blocked: STEP/IGES/BREP to a mesh format is meshed at `draft` whatever `--quality` says, and every export carries a trial note (FBX gets draft only). Before a batch, convert one of its files with `convert --json`; when the result has `trialExport: true`, tell the user before converting the rest that STEP/IGES/BREP parts will be meshed at draft quality and carry a trial note.' + NO_KEYS],
   ],
 };

@@ -22,8 +22,11 @@
     "create_slideshow",
     "merge_pdfs",
     "detect_format",
+    "get_file_info",
+    "list_formats",
     "list_effects",
     "read_metadata",
-    "write_metadata"
+    "write_metadata",
+    "get_license_status"
   ]
 }

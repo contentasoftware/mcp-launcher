@@ -76,32 +76,43 @@ export function priceLine(key) {
   return `${m[1]}, a one-time purchase. No subscription needed. Prices: ${buyUrl[key]}`;
 }
 
-/** Developer facts per app: what --json prints and what the exit codes mean. Match the skills. */
+/** Developer facts per app: the schedule example, and what --json prints and the exit codes mean (one contract for all four). Match the skills. */
+const cliJson = 'Every command takes `--json` and prints one JSON object on stdout (logs go to stderr): `success`, `exitCode`, `error`, `warnings`, `errors` and `outputs`, plus the trial fields when they apply. Add `--progress` for one `{"type":"progress",...}` line per finished file before that object.';
+const cliExit = '0 done · 1 unexpected error · 2 invalid arguments · 3 input not found or unreadable · 4 some items failed (the others are written) · 5 nothing succeeded · 6 the licence or trial refused the run · 130 cancelled. The four ContentaSoft command lines share this table.';
 export const developer = {
   cc: {
     scheduleNote: 'To convert each new photo saved to a folder while you are signed in, start `watch` at logon; it runs until you sign out or close its window:',
-    schedule: 'schtasks /create /tn "Contenta Converter watch" /sc onlogon /tr "contenta watch D:\\Inbox --output D:\\Ready --format webp"',
-    json: 'Every command takes `--json` and prints JSON on stdout. An error is one `{"success":false,"error":"...","exitCode":N}` object. `batch --json` prints progress objects while it runs; the last object is the summary, with `outputs` and `errors`.',
-    exit: '0 done · 1 general error · 2 invalid arguments · 4 a conversion failed (in a batch the other files are still written) · 5 file or folder not found · 6 bundled tools missing · 130 cancelled.',
+    schedule: 'schtasks /create /tn "Contenta Converter watch" /sc onlogon /tr "contenta watch D:\\Inbox -o D:\\Ready --format webp"',
+    json: cliJson,
+    exit: cliExit,
   },
   vr: {
     scheduleNote: 'To compress each new video saved to a folder while you are signed in, start `watch` at logon; it runs until you sign out or close its window:',
-    schedule: 'schtasks /create /tn "VideoRecompress Studio watch" /sc onlogon /tr "videorecompress watch --folder D:\\Camera --preset phone_archive --output D:\\Compressed"',
-    json: 'Every command takes `--json`: JSON on stdout, logs on stderr. `batch --json` prints one object per line, progress first; the last line is the summary, with `success`, `processed`, `failed` and `errors`.',
-    exit: '0 done · 1 general error · 2 invalid arguments · 4 recompression failed (in a batch the other files are still written) · 5 file or folder not found · 6 ffmpeg missing.',
+    schedule: 'schtasks /create /tn "VideoRecompress Studio watch" /sc onlogon /tr "videorecompress watch D:\\Camera -o D:\\Compressed --preset phone_archive"',
+    json: cliJson,
+    exit: cliExit,
   },
   aive: {
     scheduleNote: 'A nightly run with `--skip-existing` enhances only the videos that have no output yet:',
-    schedule: 'schtasks /create /tn "AI Video Enhancer Studio nightly" /sc daily /st 02:00 /tr "aivideoenhancer enhance D:\\Tapes -o D:\\Restored --preset old_video_restoration --skip-existing"',
-    json: 'Results are plain text on stdout and log lines go to stderr; a failure prints one `Error: ...` line on stderr. Only `remix suggest` has `--json`, so check the exit code.',
-    exit: '0 done · 1 general error · 2 invalid arguments · 3 daily clip limit reached · 4 enhancement failed or timed out · 5 file not found · 6 tools missing.',
+    schedule: 'schtasks /create /tn "AI Video Enhancer Studio nightly" /sc daily /st 02:00 /tr "aivideoenhancer batch D:\\Tapes -o D:\\Restored --preset old_video_restoration --skip-existing"',
+    json: cliJson,
+    exit: cliExit,
   },
   cad: {
     scheduleNote: 'To convert each new file saved to a folder while you are signed in, start `watch` at logon; it runs until you sign out or close its window:',
-    schedule: 'schtasks /create /tn "3D CAD Converter watch" /sc onlogon /tr "cadconvert watch D:\\Parts D:\\Meshes -f 3mf --quality fine"',
-    json: '`info`, `formats`, `convert` and `batch` take `--json` and print exactly one object, with `success` and, when there is something to report, `warning` and `notes`. An error is `{"success":false,"error":"...","exitCode":N}`. Piped text output is plain ASCII.',
-    exit: '0 done · 1 error or cancelled · 2 invalid arguments or not a 3D file · 3 file not found · 4 conversion failed (in a batch the other files are still written).',
+    schedule: 'schtasks /create /tn "3D CAD Converter watch" /sc onlogon /tr "cadconvert watch D:\\Parts -o D:\\Meshes --format 3mf --quality fine"',
+    json: cliJson,
+    exit: cliExit,
   },
+};
+
+/** The generated CLI and MCP reference per app (scripts/generate-cli-docs.py writes it into the public docs repo). */
+const docsRepo = 'https://github.com/brunojanvier77/ContentaSoft/blob/main';
+export const reference = {
+  cc: { cli: `${docsRepo}/contenta-converter/cli.md`, mcp: `${docsRepo}/contenta-converter/mcp-server.md` },
+  vr: { cli: `${docsRepo}/videorecompress/cli.md`, mcp: `${docsRepo}/videorecompress/mcp-server.md` },
+  aive: { cli: `${docsRepo}/ai-video-enhancer/cli.md`, mcp: `${docsRepo}/ai-video-enhancer/mcp-server.md` },
+  cad: { cli: `${docsRepo}/cad-converter/cli.md`, mcp: `${docsRepo}/cad-converter/mcp-server.md` },
 };
 
 /** Where each app keeps the usage-statistics switch, for machines where nobody opens the app. */

@@ -11,10 +11,13 @@ Contenta Converter is a Windows 10/11 desktop app with a free trial: https://www
 
 This package is a small launcher. It finds Contenta Converter on your PC (`contenta.exe`, installed per-user in
 `%LOCALAPPDATA%\Programs\ContentaConverter` or on your `PATH`) and runs the app's own MCP server
-(`contenta serve`) over stdio. Tools: `convert_image`, `batch_convert`, `ai_transform`, `create_pdf_album`, `create_slideshow`, `merge_pdfs`, `detect_format`, `list_effects`, `read_metadata`, `write_metadata`.
+(`contenta serve`) over stdio. Tools: `convert_image`, `batch_convert`, `ai_transform`, `create_pdf_album`, `create_slideshow`, `merge_pdfs`, `detect_format`, `get_file_info`, `list_formats`, `list_effects`, `read_metadata`, `write_metadata`, `get_license_status`.
 
 If the app is not installed yet, the launcher serves a single `get_started` tool that gives your agent the
 download link and the install steps instead.
+
+Full CLI and MCP reference: https://github.com/brunojanvier77/ContentaSoft/blob/main/contenta-converter/mcp-server.md (MCP tools and their parameters) and
+https://github.com/brunojanvier77/ContentaSoft/blob/main/contenta-converter/cli.md (the command line).
 
 ## Add it to your client
 
