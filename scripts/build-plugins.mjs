@@ -193,7 +193,10 @@ for (const app of apps) {
   // shells: Claude Code on Windows often uses its PowerShell tool. Space form, as the permission docs write it;
   // `<cli>.exe` is a different first word, so it gets its own rule. The grant lasts for the turn that invokes the skill.
   const skillSrc = fs.readFileSync(path.join(docsSkills, p.skill, 'SKILL.md'), 'utf8');
-  const allowed = [cli, `${cli}.exe`].flatMap((c) => [`Bash(${c} *)`, `PowerShell(${c} *)`]).join(' ');
+  // Plus the plugin's own MCP server: Claude Code names its tools mcp__plugin_<plugin>_<server>__<tool>, and the
+  // server-level rule covers them all, so "MCP first" costs no prompt in the skill's turn either.
+  const allowed = [...[cli, `${cli}.exe`].flatMap((c) => [`Bash(${c} *)`, `PowerShell(${c} *)`]),
+    `mcp__plugin_${p.name}_${app.serverName}`].join(' ');
   const narrowed = skillSrc.replace(/^allowed-tools:\s*Bash\s*$/m, `allowed-tools: ${allowed}`);
   if (narrowed === skillSrc) throw new Error(`${p.skill}: no 'allowed-tools: Bash' line to narrow`);
   write(path.join(dir, 'skills', p.skill, 'SKILL.md'), narrowed);
@@ -297,9 +300,9 @@ ${localWork[app.key].map((b) => `- ${b}`).join('\n')}
   bytes as the npm package \`${app.package}\`, MIT, no dependencies; source: https://github.com/contentasoftware/mcp-launcher)
   or, without Node.js, the Windows PowerShell stub \`server/stub.ps1\` serves one tool, \`get_started\`. Neither sends
   anything over the network.
-- While Claude Code uses the skill, it can run the app's own command-line tool in Bash or PowerShell without asking
-  (\`allowed-tools: ${allowed}\`). That permission ends when you send your next message. Other commands, and the
-  plugin's MCP tools, follow your own Claude Code permission settings.
+- While Claude Code uses the skill, it can use the plugin's MCP tools and run the app's own command-line tool in Bash or
+  PowerShell without asking (\`allowed-tools: ${allowed}\`). That permission ends when you send your next message.
+  Other commands follow your own Claude Code permission settings.
 
 ## License
 
