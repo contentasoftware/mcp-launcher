@@ -189,9 +189,12 @@ for (const app of apps) {
   fs.mkdirSync(path.join(dir, '.claude-plugin'), { recursive: true });
   fs.copyFileSync(path.join(contenta, p.icon), path.join(dir, '.claude-plugin', 'icon.png'));
 
-  // The skill may only run the app's own CLI (the directory holds a bare `allowed-tools: Bash`).
+  // The skill pre-approves only the app's own CLI (the directory holds a bare `allowed-tools: Bash`), in both
+  // shells: Claude Code on Windows often uses its PowerShell tool. Space form, as the permission docs write it;
+  // `<cli>.exe` is a different first word, so it gets its own rule. The grant lasts for the turn that invokes the skill.
   const skillSrc = fs.readFileSync(path.join(docsSkills, p.skill, 'SKILL.md'), 'utf8');
-  const narrowed = skillSrc.replace(/^allowed-tools:\s*Bash\s*$/m, `allowed-tools: Bash(${cli}:*)`);
+  const allowed = [cli, `${cli}.exe`].flatMap((c) => [`Bash(${c} *)`, `PowerShell(${c} *)`]).join(' ');
+  const narrowed = skillSrc.replace(/^allowed-tools:\s*Bash\s*$/m, `allowed-tools: ${allowed}`);
   if (narrowed === skillSrc) throw new Error(`${p.skill}: no 'allowed-tools: Bash' line to narrow`);
   write(path.join(dir, 'skills', p.skill, 'SKILL.md'), narrowed);
   write(path.join(dir, 'LICENSE'), license);
@@ -294,7 +297,9 @@ ${localWork[app.key].map((b) => `- ${b}`).join('\n')}
   bytes as the npm package \`${app.package}\`, MIT, no dependencies; source: https://github.com/contentasoftware/mcp-launcher)
   or, without Node.js, the Windows PowerShell stub \`server/stub.ps1\` serves one tool, \`get_started\`. Neither sends
   anything over the network.
-- The skill may only run the app's own command-line tool (\`allowed-tools: Bash(${cli}:*)\`).
+- While Claude Code uses the skill, it can run the app's own command-line tool in Bash or PowerShell without asking
+  (\`allowed-tools: ${allowed}\`). That permission ends when you send your next message. Other commands, and the
+  plugin's MCP tools, follow your own Claude Code permission settings.
 
 ## License
 
