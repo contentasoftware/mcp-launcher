@@ -34,7 +34,7 @@
       "websiteUrl": "https://www.contenta-software.com/videorecompress/",
       "downloadUrl": "https://www.contenta-software.com/videorecompress/download.php",
       "privacyUrl": "https://www.contenta-software.com/videorecompress/privacy.php",
-      "tools": ["recompress_video", "batch_recompress", "get_file_info", "estimate_savings", "list_presets", "list_formats", "get_license_status", "analyze_video"],
+      "tools": ["recompress_video", "batch_recompress", "get_file_info", "estimate_savings", "list_presets", "list_formats", "get_license_status"],
       "networkNote": ""
     },
     {
@@ -52,7 +52,7 @@
       "websiteUrl": "https://www.contenta-software.com/aivideoenhancer/",
       "downloadUrl": "https://www.contenta-software.com/aivideoenhancer/download.php",
       "privacyUrl": "https://www.contenta-software.com/aivideoenhancer/privacy.php",
-      "tools": ["enhance_video", "get_file_info", "get_status", "list_presets", "list_formats", "get_license_status", "analyze_video"],
+      "tools": ["enhance_video", "get_file_info", "get_status", "list_presets", "list_formats", "get_license_status"],
       "networkNote": ""
     },
     {

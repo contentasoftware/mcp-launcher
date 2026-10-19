@@ -21,7 +21,6 @@
     "estimate_savings",
     "list_presets",
     "list_formats",
-    "get_license_status",
-    "analyze_video"
+    "get_license_status"
   ]
 }
