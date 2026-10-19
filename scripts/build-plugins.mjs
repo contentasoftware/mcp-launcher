@@ -11,7 +11,7 @@
 import fs from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { trial, trialTail, repoName, claudeInstall, askExamples, desktopWindow, priceLine, developer, telemetrySwitch, localWork, cadFormats } from './texts.mjs';
+import { trial, trialTail, repoName, claudeInstall, askExamples, audience, desktopWindow, priceLine, developer, telemetrySwitch, localWork, cadFormats } from './texts.mjs';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const { version, apps } = JSON.parse(fs.readFileSync(path.join(root, 'apps.json'), 'utf8'));
@@ -211,7 +211,7 @@ for (const app of apps) {
 Use **${app.product}** from your AI agent on your Windows PC: ${app.summary}. You ask in plain words and the
 agent does the work on files on your computer. It works with any agent that runs local MCP servers: Cursor,
 Claude Code, Codex, VS Code, Windsurf and others.
-
+${audience[app.key] ? `\n${audience[app.key]}\n` : ''}
 ## Ask your agent
 
 ${askExamples[app.key].map((e) => `- "${e}"`).join('\n')}

@@ -37,10 +37,15 @@ export const askExamples = {
     'Make a before-and-after video so I can see the difference.',
   ],
   cad: [
-    'Convert this STEP file to 3MF for my slicer.',
-    'How big is this STEP part, and what unit was it drawn in?',
-    'Turn this assembly into a GLB file I can show a customer in a web browser.',
+    'Convert every STEP file in this folder to GLB so my customer can view the parts in a browser.',
+    'What are the overall dimensions of this STEP assembly, in millimetres?',
+    'Convert these IGES files from our supplier to STEP.',
   ],
+};
+
+/** Who the listing is for, where it is not the general reader. CAD: engineers and machine shops (Bruno, 2026-10-19). */
+export const audience = {
+  cad: 'For engineers and machine shops: turn STEP and IGES parts into GLB previews and 3MF, STL or STEP deliverables for your customers, a whole folder at a time. Parts come out at their true size. Conversion runs on this PC: your files are not uploaded, and converting needs no internet connection.',
 };
 
 export const desktopWindow = (product) =>
