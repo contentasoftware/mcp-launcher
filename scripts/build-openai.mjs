@@ -1,19 +1,24 @@
-// Generates the four OpenAI skills-only plugin packages (ChatGPT + Codex plugin directory) from apps.json
-// into dist/openai/<name>/ and dist/openai/<name>.zip (package contents at the ZIP root). Portable Agent
+// Generates the OpenAI plugin packages (ChatGPT + Codex plugin directory) from apps.json, two per app, each as
+// dist/<variant>/<name>/ plus dist/<variant>/<name>.zip (package contents at the ZIP root). Portable Agent
 // Plugins format: root plugin.json + extensions.com.openai.interface for the listing, skills/<skill>/SKILL.md,
-// assets/. Skills-only because the directory's MCP path needs a public HTTPS server and ours are local apps.
+// assets/.
+//   dist/openai/          skills-only. The directory stopped taking new skills-only submissions (2026-10-18).
+//   dist/openai-desktop/  desktop-only (developers.openai.com/plugins/deploy/desktop-only): the skill plus the
+//                         app's local MCP server through the same server/ launchers as the Claude plugins, and
+//                         requires_local_executor. Installs from the ChatGPT desktop app only; local MCP
+//                         submissions need an allowlisted organization.
 // Run `npm run openai`, then upload each ZIP at https://platform.openai.com/plugins.
 import fs from 'node:fs';
 import path from 'node:path';
 import zlib from 'node:zlib';
 import { fileURLToPath } from 'node:url';
 import { desktopWindow, cadFormats } from './texts.mjs';
+import { writeCrlf, launchCmd, stubPs1 } from './launchers.mjs';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const contenta = path.resolve(root, '..');
 const { version, apps } = JSON.parse(fs.readFileSync(path.join(root, 'apps.json'), 'utf8'));
 const license = fs.readFileSync(path.join(root, 'LICENSE'), 'utf8');
-const out = path.join(root, 'dist', 'openai');
 
 // Listing copy: displayName <= 30, shortDescription <= 30, prompts <= 128 characters (OpenAI limits).
 const listing = {
@@ -95,7 +100,7 @@ const openaiEdits = {
     [/^- Trial: .*$/m, '- Without a licence: 10 conversions at full quality within 30 days of the first launch. After that nothing is blocked: STEP/IGES/BREP to a mesh format is meshed at `draft` whatever `--quality` says, and every export carries a trial note (FBX gets draft only). Before a batch, convert one of its files with `convert --json`; when the result has `trialExport: true`, tell the user before converting the rest that STEP/IGES/BREP parts will be meshed at draft quality and carry a trial note.' + NO_KEYS],
   ],
 };
-const forOpenAI = (skill, key) => {
+const forOpenAI = (skill, key, desktop) => {
   for (const [re, to] of openaiEdits[key]) {
     if ((skill.match(new RegExp(re.source, re.flags.replace('g', '') + 'g')) || []).length !== 1) throw new Error(`${key}: expected exactly one match for ${re}`);
     skill = skill.replace(re, to);
@@ -108,9 +113,9 @@ const forOpenAI = (skill, key) => {
     .replace(/ \.\/photos\/\*\.jpg /g, ' (Get-ChildItem ./photos/*.jpg).FullName ')
     .replace(/2>\/dev\/null/g, '2>$null')
     .replace(/^- The examples are for Git Bash.*$/m, '- The examples are PowerShell, which Codex uses on Windows; forward-slash paths work there. In bash (WSL, Git Bash) write `./photos/*.jpg` instead of the `Get-ChildItem` form, since bash expands the glob itself.');
-  // The MCP-first rule is for the plugin channels with MCP; this package is skills-only.
+  // The MCP-first rule is for the plugin channels with MCP: the desktop-only package has one, skills-only has not.
   if ((skill.match(/^- \*\*MCP first:\*\*.*\n/gm) || []).length !== 1) throw new Error(`${key}: expected one MCP first line`);
-  skill = skill.replace(/^- \*\*MCP first:\*\*.*\n/m, '');
+  if (!desktop) skill = skill.replace(/^- \*\*MCP first:\*\*.*\n/m, '');
   // Codex reads only name and description from the frontmatter; allowed-tools is a Claude Code field.
   skill = skill.replace(/^allowed-tools:.*\n/m, '');
   return skill;
@@ -168,9 +173,12 @@ function writeZip(zipPath, dir) {
 const termsUrl = (app) => app.privacyUrl.replace('privacy.php', 'terms.php');
 const write = (file, data) => { fs.mkdirSync(path.dirname(file), { recursive: true }); fs.writeFileSync(file, data); };
 
+for (const desktop of [false, true]) {
+const out = path.join(root, 'dist', desktop ? 'openai-desktop' : 'openai');
 fs.rmSync(out, { recursive: true, force: true });
 for (const app of apps) {
   const l = listing[app.key];
+  const cli = app.exe.replace('.exe', '');
   const displayName = l.displayName || app.product;
   for (const [k, v] of [['short', l.short], ['displayName', displayName]]) if (v.length > 30) throw new Error(`${app.key} ${k} > 30: ${v}`);
   for (const p of l.prompts) if (p.length > 128) throw new Error(`${app.key} prompt > 128: ${p}`);
@@ -180,17 +188,40 @@ for (const app of apps) {
   write(path.join(dir, 'assets', 'icon.png'), icon);
   write(path.join(dir, 'assets', 'logo.png'), icon);
 
-  // The skill drives the app's CLI. Codex runs it on the user's PC; ChatGPT cannot run local programs,
-  // so the skill says so up front instead of failing.
-  const skill = forOpenAI(fs.readFileSync(path.join(contenta, 'ContentaSoft', 'skills', l.skill, 'SKILL.md'), 'utf8').replace(/\r\n/g, '\n'), app.key);
+  // The skill drives the app's CLI. Codex runs it on the user's PC; ChatGPT on the web cannot run local
+  // programs, so the skills-only skill says so up front instead of failing. The desktop-only package runs on
+  // the user's PC with the app's MCP tools.
+  const skill = forOpenAI(fs.readFileSync(path.join(contenta, 'ContentaSoft', 'skills', l.skill, 'SKILL.md'), 'utf8').replace(/\r\n/g, '\n'), app.key, desktop);
   const end = skill.indexOf('\n---', 4) + 4;
-  const note = `\n\n> **Requires ${app.product} installed on this Windows PC** (download: ${app.downloadUrl}).` +
-    ` The commands below run the app's command-line tool on the user's own computer, so they work in Codex and other` +
-    ` local agents (Codex on Windows runs them in PowerShell; the examples are written for it). In ChatGPT, which` +
-    ` cannot run programs on the user's computer, use this skill to choose the right command and give it to the user` +
-    ` to run. Codex can also use the app's MCP tools: \`codex mcp add ${app.serverName} -- ${app.exe.replace('.exe', '')} serve\`.\n`;
+  const note = desktop
+    ? `\n\n> **Requires ${app.product} installed on this Windows PC** (download: ${app.downloadUrl}). This plugin's MCP` +
+      ` server \`${app.serverName}\` runs the app's own tools on the user's computer; when the app is missing it offers one` +
+      ` tool, \`get_started\`, with the download link. The commands below run the app's command-line tool for what the` +
+      ` MCP tools do not cover (in PowerShell on Windows; the examples are written for it).\n`
+    : `\n\n> **Requires ${app.product} installed on this Windows PC** (download: ${app.downloadUrl}).` +
+      ` The commands below run the app's command-line tool on the user's own computer, so they work in Codex and other` +
+      ` local agents (Codex on Windows runs them in PowerShell; the examples are written for it). In ChatGPT, which` +
+      ` cannot run programs on the user's computer, use this skill to choose the right command and give it to the user` +
+      ` to run. Codex can also use the app's MCP tools: \`codex mcp add ${app.serverName} -- ${cli} serve\`.\n`;
   write(path.join(dir, 'skills', l.skill, 'SKILL.md'), skill.slice(0, end) + note + skill.slice(end));
   write(path.join(dir, 'LICENSE'), license);
+
+  // Desktop-only: the app's own MCP server, started by the same launchers as the Claude plugins (cmd.exe only
+  // when the app is installed; else the Node launcher, else the PowerShell get_started stub).
+  if (desktop) {
+    const pkgDir = path.join(root, 'packages', app.package.split('/')[1]);
+    for (const f of ['index.js', 'app.json', 'package.json']) {
+      write(path.join(dir, 'server', f), fs.readFileSync(path.join(pkgDir, f), 'utf8').replace(/\r\n/g, '\n'));
+    }
+    writeCrlf(path.join(dir, 'server', 'launch.cmd'), launchCmd(app, cli, 'ChatGPT desktop plugin'));
+    write(path.join(dir, 'server', 'stub.ps1'), stubPs1(app, version, 'ChatGPT desktop plugin'));
+    write(path.join(dir, 'mcp.json'), JSON.stringify({
+      $schema: 'https://agent-plugins.org/schemas/1.0.0/mcp.schema.json',
+      mcpServers: {
+        [app.serverName]: { type: 'stdio', command: 'cmd', args: ['/c', '${PLUGIN_ROOT}/server/launch.cmd'], cwd: '${PLUGIN_ROOT}' },
+      },
+    }, null, 2) + '\n');
+  }
 
   write(path.join(dir, 'plugin.json'), JSON.stringify({
     $schema: 'https://agent-plugins.org/schemas/1.0.0/plugin.schema.json',
@@ -208,10 +239,14 @@ for (const app of apps) {
           displayName,
           shortDescription: l.short,
           longDescription:
-            `${l.purpose} ${app.product} is a Windows desktop app for ${app.summary}; this skill teaches the agent its ` +
-            `command-line tool (${app.exe.replace('.exe', '')}), so you ask in plain words and the work runs on your own PC, ` +
-            `on your own files. It needs ${app.product} installed (${app.downloadUrl}). In Codex the ` +
-            `agent runs the commands for you; in ChatGPT it tells you which command to run. ${desktopWindow(app.product)}` +
+            (desktop
+              ? `${l.purpose} ${app.product} is a Windows desktop app for ${app.summary}; this plugin connects the agent to ` +
+                `the app's own tools on your PC, so you ask in plain words and the work runs on your own computer, on your ` +
+                `own files. It needs ${app.product} installed (${app.downloadUrl}). ${desktopWindow(app.product)}`
+              : `${l.purpose} ${app.product} is a Windows desktop app for ${app.summary}; this skill teaches the agent its ` +
+                `command-line tool (${cli}), so you ask in plain words and the work runs on your own PC, ` +
+                `on your own files. It needs ${app.product} installed (${app.downloadUrl}). In Codex the ` +
+                `agent runs the commands for you; in ChatGPT it tells you which command to run. ${desktopWindow(app.product)}`) +
             `${app.key === 'cad' ? ` ${cadFormats.native}` : ''} Support: bruno@contenta-software.com`,
           developerName: 'ContentaSoft AB',
           category: l.category,
@@ -224,6 +259,7 @@ for (const app of apps) {
           composerIcon: './assets/icon.png',
           logo: './assets/logo.png',
         },
+        ...(desktop ? { requires_local_executor: true } : {}),
       },
     },
   }, null, 2) + '\n');
@@ -236,8 +272,11 @@ for (const app of apps) {
 
   const zip = path.join(out, `${l.name}.zip`);
   const entries = writeZip(zip, dir);
-  for (const need of ['plugin.json', 'LICENSE', `skills/${l.skill}/SKILL.md`, 'assets/icon.png', 'assets/logo.png']) {
+  const needed = ['plugin.json', 'LICENSE', `skills/${l.skill}/SKILL.md`, 'assets/icon.png', 'assets/logo.png',
+    ...(desktop ? ['mcp.json', 'server/launch.cmd', 'server/stub.ps1', 'server/index.js', 'server/app.json'] : [])];
+  for (const need of needed) {
     if (!entries.includes(need)) throw new Error(`${l.name}.zip is missing ${need}`);
   }
-  console.log(`openai package ${l.name} -> ${zip} (${fs.statSync(zip).size} bytes, ${entries.length} files)`);
+  console.log(`openai${desktop ? '-desktop' : ''} package ${l.name} -> ${zip} (${fs.statSync(zip).size} bytes, ${entries.length} files)`);
+}
 }
