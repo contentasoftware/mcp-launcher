@@ -23,7 +23,7 @@ const docsSkills = path.resolve(root, '..', 'ContentaSoft', 'skills');
 // Plugin names must be distinctive (directory review holds generic names), so the two apps whose
 // product names are generic words carry the brand.
 const plugin = {
-  cc: { name: 'contenta-converter', skill: 'contenta-image-processing', icon: 'docs/brand/contenta-converter/contenta-converter-logo-1024.png' },
+  cc: { name: 'contenta-photo-converter', skill: 'contenta-image-processing', icon: 'docs/brand/contenta-converter/contenta-converter-logo-1024.png' },
   vr: { name: 'videorecompress-studio', skill: 'contenta-video', icon: 'docs/brand/videorecompress/videorecompress-logo-1024.png' },
   aive: { name: 'contentasoft-ai-video-enhancer', skill: 'contenta-video-enhancer', icon: 'docs/app-icons-512/aive_icon_512.png' },
   cad: { name: 'contentasoft-cad-converter', skill: 'contenta-cad', icon: 'docs/app-icons-512/cad_icon_512.png' },
@@ -38,6 +38,7 @@ for (const app of apps) {
   const p = plugin[app.key];
   const dir = path.join(outRoot, p.name);
   const cli = app.exe.replace('.exe', '');
+  const appName = app.appName || app.product; // the installed app's name where the listing name differs
   const repo = repoName(p.name);
   const cmds = claudeInstall(p.name);
   const description = `${app.product} on your Windows PC from your AI agent: ${app.summary}. Runs locally on your files.`;
@@ -113,7 +114,7 @@ for (const app of apps) {
 ` : '';
   write(path.join(dir, 'README.md'), `# ${app.product} plugin
 
-Use **${app.product}** from your AI agent on your Windows PC: ${app.summary}. You ask in plain words and the
+Use **${app.product}**${app.appName ? ` (the ${appName} app)` : ''} from your AI agent on your Windows PC: ${app.summary}. You ask in plain words and the
 agent does the work on files on your computer. It works with any agent that runs local MCP servers: Cursor,
 Claude Code, Codex, VS Code, Windsurf and others.
 ${audience[app.key] ? `\n${audience[app.key]}\n` : ''}
@@ -121,7 +122,7 @@ ${audience[app.key] ? `\n${audience[app.key]}\n` : ''}
 
 ${askExamples[app.key].map((e) => `- "${e}"`).join('\n')}
 
-${desktopWindow(app.product)}
+${desktopWindow(appName)}
 
 ## Price and trial
 
@@ -148,7 +149,7 @@ Client-by-client instructions: https://www.npmjs.com/package/${app.package}
 
 ## What you need
 
-- Windows 10 or 11 with **${app.product}** installed. It has a free trial: ${app.downloadUrl}
+- Windows 10 or 11 with **${appName}** installed. It has a free trial: ${app.downloadUrl}
   (if it is not installed yet, the \`get_started\` tool gives the agent the download link and the steps).
 - Nothing else for the Claude Code plugin: its launcher is a Windows batch file (\`server/launch.cmd\`) that starts the
   app's own MCP server. Node.js is not required; only the \`npx\` route for other clients needs it.
@@ -205,7 +206,7 @@ ${localWork[app.key].map((b) => `- ${b}`).join('\n')}
 
 ## License
 
-This plugin and the launcher are MIT-licensed (see LICENSE). ${app.product} itself is commercial software by
+This plugin and the launcher are MIT-licensed (see LICENSE). ${appName} itself is commercial software by
 ContentaSoft AB.
 `);
 

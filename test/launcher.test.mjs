@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const require = createRequire(import.meta.url);
-const pkgDir = path.join(root, 'packages', 'contenta-converter-mcp');
+const pkgDir = path.join(root, 'packages', 'contenta-photo-converter-mcp');
 const L = require(path.join(pkgDir, 'index.js'));
 
 const winEnv = (extra = {}) => ({ LOCALAPPDATA: 'C:\\Users\\u\\AppData\\Local', PATH: '', ProgramFiles: 'C:\\Program Files', ...extra });
@@ -37,7 +37,7 @@ const call = (obj, platform = 'win32') => JSON.parse(L.handleLine(JSON.stringify
 test('stub: initialize negotiates and says the app is missing', () => {
   const r = call({ jsonrpc: '2.0', id: 1, method: 'initialize', params: { protocolVersion: '2024-11-05' } });
   assert.equal(r.result.protocolVersion, '2024-11-05');
-  assert.equal(r.result.serverInfo.name, 'contenta-converter');
+  assert.equal(r.result.serverInfo.name, 'contenta-photo-converter'); // the stub answers with apps.json serverName; the installed app itself still says contenta-converter until the next CC release
   assert.match(r.result.instructions, /not installed/);
   assert.equal(call({ jsonrpc: '2.0', id: 2, method: 'initialize', params: { protocolVersion: '2099-01-01' } }).result.protocolVersion, '2025-11-25');
 });

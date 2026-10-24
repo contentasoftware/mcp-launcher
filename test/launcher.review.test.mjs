@@ -11,7 +11,7 @@ import { fileURLToPath } from 'node:url';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const require = createRequire(import.meta.url);
-const pkgDir = path.join(root, 'packages', 'contenta-converter-mcp');
+const pkgDir = path.join(root, 'packages', 'contenta-photo-converter-mcp');
 const L = require(path.join(pkgDir, 'index.js'));
 
 const winEnv = (extra = {}) => ({ LOCALAPPDATA: 'C:\\Users\\u\\AppData\\Local', PATH: '', ProgramFiles: 'C:\\Program Files', ...extra });

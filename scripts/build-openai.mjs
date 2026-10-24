@@ -23,7 +23,7 @@ const license = fs.readFileSync(path.join(root, 'LICENSE'), 'utf8');
 // Listing copy: displayName <= 30, shortDescription <= 30, prompts <= 128 characters (OpenAI limits).
 const listing = {
   cc: {
-    name: 'contenta-converter', skill: 'contenta-image-processing', icon: 'docs/brand/contenta-converter/contenta-converter-logo-1024.png',
+    name: 'contenta-photo-converter', skill: 'contenta-image-processing', icon: 'docs/brand/contenta-converter/contenta-converter-logo-1024.png',
     short: 'Batch convert images locally',
     category: 'Creativity',
     supportUrl: 'https://www.contenta-converter.com/support.php',
@@ -179,6 +179,7 @@ fs.rmSync(out, { recursive: true, force: true });
 for (const app of apps) {
   const l = listing[app.key];
   const cli = app.exe.replace('.exe', '');
+  const appName = app.appName || app.product; // the installed app's name where the listing name differs
   const displayName = l.displayName || app.product;
   for (const [k, v] of [['short', l.short], ['displayName', displayName]]) if (v.length > 30) throw new Error(`${app.key} ${k} > 30: ${v}`);
   for (const p of l.prompts) if (p.length > 128) throw new Error(`${app.key} prompt > 128: ${p}`);
@@ -194,11 +195,11 @@ for (const app of apps) {
   const skill = forOpenAI(fs.readFileSync(path.join(contenta, 'ContentaSoft', 'skills', l.skill, 'SKILL.md'), 'utf8').replace(/\r\n/g, '\n'), app.key, desktop);
   const end = skill.indexOf('\n---', 4) + 4;
   const note = desktop
-    ? `\n\n> **Requires ${app.product} installed on this Windows PC** (download: ${app.downloadUrl}). This plugin's MCP` +
+    ? `\n\n> **Requires ${appName} installed on this Windows PC** (download: ${app.downloadUrl}). This plugin's MCP` +
       ` server \`${app.serverName}\` runs the app's own tools on the user's computer; when the app is missing it offers one` +
       ` tool, \`get_started\`, with the download link. The commands below run the app's command-line tool for what the` +
       ` MCP tools do not cover (in PowerShell on Windows; the examples are written for it).\n`
-    : `\n\n> **Requires ${app.product} installed on this Windows PC** (download: ${app.downloadUrl}).` +
+    : `\n\n> **Requires ${appName} installed on this Windows PC** (download: ${app.downloadUrl}).` +
       ` The commands below run the app's command-line tool on the user's own computer, so they work in Codex and other` +
       ` local agents (Codex on Windows runs them in PowerShell; the examples are written for it). In ChatGPT, which` +
       ` cannot run programs on the user's computer, use this skill to choose the right command and give it to the user` +
@@ -240,13 +241,13 @@ for (const app of apps) {
           shortDescription: l.short,
           longDescription:
             (desktop
-              ? `${l.purpose} ${app.product} is a Windows desktop app for ${app.summary}; this plugin connects the agent to ` +
+              ? `${l.purpose} ${appName} is a Windows desktop app for ${app.summary}; this plugin connects the agent to ` +
                 `the app's own tools on your PC, so you ask in plain words and the work runs on your own computer, on your ` +
-                `own files. It needs ${app.product} installed (${app.downloadUrl}). ${desktopWindow(app.product)}`
-              : `${l.purpose} ${app.product} is a Windows desktop app for ${app.summary}; this skill teaches the agent its ` +
+                `own files. It needs ${appName} installed (${app.downloadUrl}). ${desktopWindow(appName)}`
+              : `${l.purpose} ${appName} is a Windows desktop app for ${app.summary}; this skill teaches the agent its ` +
                 `command-line tool (${cli}), so you ask in plain words and the work runs on your own PC, ` +
-                `on your own files. It needs ${app.product} installed (${app.downloadUrl}). In Codex the ` +
-                `agent runs the commands for you; in ChatGPT it tells you which command to run. ${desktopWindow(app.product)}`) +
+                `on your own files. It needs ${appName} installed (${app.downloadUrl}). In Codex the ` +
+                `agent runs the commands for you; in ChatGPT it tells you which command to run. ${desktopWindow(appName)}`) +
             `${app.key === 'cad' ? ` ${cadFormats.native}` : ''} Support: bruno@contenta-software.com`,
           developerName: 'ContentaSoft AB',
           category: l.category,

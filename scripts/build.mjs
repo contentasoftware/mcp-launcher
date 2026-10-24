@@ -40,6 +40,8 @@ for (const app of apps) {
     keywords: ['mcp', 'model-context-protocol', 'windows', ...app.summary.split(/[ ,/]+/).filter((w) => w.length > 3).slice(0, 6)],
   }, null, 2) + '\n');
 
+  // The app's own name where the listing name differs (CC lists as "Contenta Photo Converter", installs as "Contenta Converter").
+  const appName = app.appName || app.product;
   const npx = `npx -y ${app.package}@${version}`;
   write(path.join(dir, 'README.md'), `# ${app.product} MCP server
 
@@ -48,11 +50,11 @@ for (const app of apps) {
 Lets an AI agent (Claude Code, Claude Desktop/Cowork, Codex, Cursor, VS Code and other MCP clients) use
 **${app.product}** on your Windows PC: ${app.summary}.
 
-${app.product} is a Windows 10/11 desktop app with a free trial: ${app.downloadUrl}
+${app.appName ? `${app.product} is the MCP server of **${appName}**, a` : `${app.product} is a`} Windows 10/11 desktop app with a free trial: ${app.downloadUrl}
 
 ## How it works
 
-This package is a small launcher. It finds ${app.product} on your PC (\`${app.exe}\`, installed per-user in
+This package is a small launcher. It finds ${appName} on your PC (\`${app.exe}\`, installed per-user in
 \`%LOCALAPPDATA%\\Programs\\${app.installFolder}\` or on your \`PATH\`) and runs the app's own MCP server
 (\`${app.exe.replace('.exe', '')} serve\`) over stdio. Tools: ${tools.map((t) => `\`${t}\``).join(', ')}.
 
@@ -117,7 +119,7 @@ Once the app is installed you can also skip the launcher: \`"command": "${app.ex
 
 ## License
 
-The launcher is MIT-licensed (see LICENSE). ${app.product} itself is commercial software by ContentaSoft AB.
+The launcher is MIT-licensed (see LICENSE). ${appName} itself is commercial software by ContentaSoft AB.
 `);
 
   write(path.join(root, 'registry', `${app.key}.server.json`), JSON.stringify({

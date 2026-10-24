@@ -1,10 +1,10 @@
 {
-  "name": "@contentasoft/contenta-converter-mcp",
+  "name": "@contentasoft/contenta-photo-converter-mcp",
   "version": "1.0.4",
-  "description": "MCP server for Contenta Converter — Batch-convert, resize and edit images on your Windows PC: 100+ formats, PDF albums, metadata",
-  "mcpName": "com.contenta-software/contenta-converter",
+  "description": "MCP server for Contenta Photo Converter — Batch-convert, resize and edit images on your Windows PC: 100+ formats, PDF albums, metadata",
+  "mcpName": "com.contenta-software/contenta-photo-converter",
   "bin": {
-    "contenta-converter-mcp": "index.js"
+    "contenta-photo-converter-mcp": "index.js"
   },
   "files": [
     "index.js",
@@ -24,7 +24,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/contentasoftware/mcp-launcher.git",
-    "directory": "packages/contenta-converter-mcp"
+    "directory": "packages/contenta-photo-converter-mcp"
   },
   "keywords": [
     "mcp",
