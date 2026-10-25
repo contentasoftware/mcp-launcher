@@ -24,7 +24,7 @@ https://github.com/brunojanvier77/ContentaSoft/blob/main/ai-video-enhancer/cli.m
 Claude Code (Windows):
 
 ```
-claude mcp add ai-video-enhancer -- cmd /c npx -y @contentasoft/ai-video-enhancer-mcp@1.0.4
+claude mcp add ai-video-enhancer -- cmd /c npx -y @contentasoft/ai-video-enhancer-mcp@1.0.5
 ```
 
 Claude Desktop, Cursor and other clients that use `mcpServers` (JSON):
@@ -32,7 +32,7 @@ Claude Desktop, Cursor and other clients that use `mcpServers` (JSON):
 ```json
 {
   "mcpServers": {
-    "ai-video-enhancer": { "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/ai-video-enhancer-mcp@1.0.4"] }
+    "ai-video-enhancer": { "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/ai-video-enhancer-mcp@1.0.5"] }
   }
 }
 ```
@@ -42,17 +42,17 @@ VS Code (`.vscode/mcp.json`, note the `servers` key):
 ```json
 {
   "servers": {
-    "ai-video-enhancer": { "type": "stdio", "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/ai-video-enhancer-mcp@1.0.4"] }
+    "ai-video-enhancer": { "type": "stdio", "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/ai-video-enhancer-mcp@1.0.5"] }
   }
 }
 ```
 
-Codex (`codex mcp add ai-video-enhancer -- cmd /c npx -y @contentasoft/ai-video-enhancer-mcp@1.0.4`, or `~/.codex/config.toml`):
+Codex (`codex mcp add ai-video-enhancer -- cmd /c npx -y @contentasoft/ai-video-enhancer-mcp@1.0.5`, or `~/.codex/config.toml`):
 
 ```toml
 [mcp_servers.ai-video-enhancer]
 command = "cmd"
-args = ["/c", "npx", "-y", "@contentasoft/ai-video-enhancer-mcp@1.0.4"]
+args = ["/c", "npx", "-y", "@contentasoft/ai-video-enhancer-mcp@1.0.5"]
 startup_timeout_sec = 60
 tool_timeout_sec = 3600
 ```

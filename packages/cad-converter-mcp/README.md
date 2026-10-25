@@ -24,7 +24,7 @@ https://github.com/brunojanvier77/ContentaSoft/blob/main/cad-converter/cli.md (t
 Claude Code (Windows):
 
 ```
-claude mcp add cad-converter -- cmd /c npx -y @contentasoft/cad-converter-mcp@1.0.4
+claude mcp add cad-converter -- cmd /c npx -y @contentasoft/cad-converter-mcp@1.0.5
 ```
 
 Claude Desktop, Cursor and other clients that use `mcpServers` (JSON):
@@ -32,7 +32,7 @@ Claude Desktop, Cursor and other clients that use `mcpServers` (JSON):
 ```json
 {
   "mcpServers": {
-    "cad-converter": { "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/cad-converter-mcp@1.0.4"] }
+    "cad-converter": { "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/cad-converter-mcp@1.0.5"] }
   }
 }
 ```
@@ -42,17 +42,17 @@ VS Code (`.vscode/mcp.json`, note the `servers` key):
 ```json
 {
   "servers": {
-    "cad-converter": { "type": "stdio", "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/cad-converter-mcp@1.0.4"] }
+    "cad-converter": { "type": "stdio", "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/cad-converter-mcp@1.0.5"] }
   }
 }
 ```
 
-Codex (`codex mcp add cad-converter -- cmd /c npx -y @contentasoft/cad-converter-mcp@1.0.4`, or `~/.codex/config.toml`):
+Codex (`codex mcp add cad-converter -- cmd /c npx -y @contentasoft/cad-converter-mcp@1.0.5`, or `~/.codex/config.toml`):
 
 ```toml
 [mcp_servers.cad-converter]
 command = "cmd"
-args = ["/c", "npx", "-y", "@contentasoft/cad-converter-mcp@1.0.4"]
+args = ["/c", "npx", "-y", "@contentasoft/cad-converter-mcp@1.0.5"]
 startup_timeout_sec = 60
 tool_timeout_sec = 3600
 ```
@@ -70,7 +70,7 @@ Once the app is installed you can also skip the launcher: `"command": "cadconver
 - The app works on local files on your PC. It sends anonymous usage telemetry (which tools ran, which MCP
   client connected, trial state) to ContentaSoft; turn it off in the app's settings. Privacy policy:
   https://www.contenta-software.com/3dcadconverter/privacy.php
-- The free trial gives 10 conversions at full quality within 30 days of the first launch; after that STEP/IGES/BREP are meshed at draft quality and every export carries a trial note. Nothing stops working; a licence removes the limits.
+- The free trial has no end date: the first 10 conversions per PC come out at full quality (plus a newsletter bonus); after that STEP/IGES/BREP to a mesh is meshed at draft quality and every export carries a trial note. `cadconvert status` shows how many full-quality conversions are left. Nothing stops working; a licence removes the limits.
 
 ## License
 
