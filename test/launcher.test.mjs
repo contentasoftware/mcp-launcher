@@ -56,6 +56,13 @@ test('stub: get_started gives the attributed download link and the steps', () =>
   assert.match(text, /convert_image/);
 });
 
+test('stub: get_started names the install pitfalls and how to enter a licence key', () => {
+  const text = call({ jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'get_started', arguments: {} } }).result.content[0].text;
+  assert.match(text, /offline installer/);
+  assert.match(text, /SmartScreen/);
+  assert.match(text, /contenta register <email> <key>/);
+});
+
 test('stub: on macOS/Linux get_started says Windows only', () => {
   const text = call({ jsonrpc: '2.0', id: 1, method: 'tools/call', params: { name: 'get_started' } }, 'darwin').result.content[0].text;
   assert.match(text, /Windows 10 and 11 only/);

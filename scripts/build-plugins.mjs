@@ -117,6 +117,9 @@ for (const app of apps) {
 ` : '';
   write(path.join(dir, 'README.md'), `# ${app.product} plugin
 
+**Windows 10/11 only.** There is no Mac or Linux version: on a Mac or Linux machine the plugin installs, but its
+server cannot start.
+
 Use **${app.product}**${app.appName ? ` (the ${appName} app)` : ''} from your AI agent on your Windows PC: ${app.summary}. You ask in plain words and the
 agent does the work on files on your computer. It works with any agent that runs local MCP servers: Cursor,
 Claude Code, Codex, VS Code, Windsurf and others.
@@ -131,6 +134,8 @@ ${desktopWindow(appName)}
 
 - ${priceLine(app.key)}
 - ${trial[app.key]} ${trialTail}
+- After buying, the licence key arrives by email. Enter it in ${appName}'s Register page, or run
+  \`${cli} register <email> <key>\` in a terminal. The key does not need to go through the chat.
 ${formats}
 ## Install
 
