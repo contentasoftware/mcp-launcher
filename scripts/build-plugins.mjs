@@ -101,7 +101,10 @@ for (const app of apps) {
   if (narrowed === skillSrc) throw new Error(`${p.skill}: no 'allowed-tools: Bash' line to narrow`);
   write(path.join(dir, 'skills', p.skill, 'SKILL.md'), narrowed);
   write(path.join(dir, 'LICENSE'), license);
-  write(path.join(dir, '.gitattributes'), '* text=auto eol=lf\n*.cmd text eol=crlf\n');
+  // The Claude directory's scanner refuses any line-ending rule other than eol=lf ("*.cmd text
+  // eol=crlf" kept every version since 1.0.3 from being fetched). launch.cmd is written CRLF by
+  // writeCrlf and stored as-is: -text, no eol setting, as the scanner asks for .cmd files.
+  write(path.join(dir, '.gitattributes'), '* text=auto eol=lf\n*.cmd -text\n');
 
   const dev = developer[app.key];
   const sw = telemetrySwitch[app.key];
