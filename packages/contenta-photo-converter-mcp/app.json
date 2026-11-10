@@ -28,6 +28,7 @@
     "list_effects",
     "read_metadata",
     "write_metadata",
-    "get_license_status"
+    "get_license_status",
+    "register_license"
   ]
 }

@@ -1,5 +1,5 @@
 {
-  "version": "1.0.5",
+  "version": "1.0.6",
   "apps": [
     {
       "key": "cc",
@@ -17,7 +17,7 @@
       "websiteUrl": "https://www.contenta-converter.com/",
       "downloadUrl": "https://www.contenta-converter.com/download.php",
       "privacyUrl": "https://www.contenta-converter.com/privacy.php",
-      "tools": ["convert_image", "batch_convert", "ai_transform", "create_pdf_album", "create_slideshow", "merge_pdfs", "detect_format", "get_file_info", "list_formats", "list_effects", "read_metadata", "write_metadata", "get_license_status"],
+      "tools": ["convert_image", "batch_convert", "ai_transform", "create_pdf_album", "create_slideshow", "merge_pdfs", "detect_format", "get_file_info", "list_formats", "list_effects", "read_metadata", "write_metadata", "get_license_status", "register_license"],
       "networkNote": "ai_transform sends the image to Google Gemini with your own Gemini API key."
     },
     {
@@ -35,7 +35,7 @@
       "websiteUrl": "https://www.contenta-software.com/videorecompress/",
       "downloadUrl": "https://www.contenta-software.com/videorecompress/download.php",
       "privacyUrl": "https://www.contenta-software.com/videorecompress/privacy.php",
-      "tools": ["recompress_video", "batch_recompress", "get_file_info", "estimate_savings", "list_presets", "list_formats", "get_license_status"],
+      "tools": ["recompress_video", "batch_recompress", "get_file_info", "estimate_savings", "list_presets", "list_formats", "get_license_status", "register_license"],
       "networkNote": ""
     },
     {
@@ -53,7 +53,7 @@
       "websiteUrl": "https://www.contenta-software.com/aivideoenhancer/",
       "downloadUrl": "https://www.contenta-software.com/aivideoenhancer/download.php",
       "privacyUrl": "https://www.contenta-software.com/aivideoenhancer/privacy.php",
-      "tools": ["enhance_video", "get_file_info", "get_status", "list_presets", "list_formats", "get_license_status"],
+      "tools": ["enhance_video", "get_file_info", "get_status", "list_presets", "list_formats", "get_license_status", "register_license"],
       "networkNote": ""
     },
     {
@@ -71,7 +71,7 @@
       "websiteUrl": "https://www.contenta-software.com/3dcadconverter/",
       "downloadUrl": "https://www.contenta-software.com/3dcadconverter/download.php",
       "privacyUrl": "https://www.contenta-software.com/3dcadconverter/privacy.php",
-      "tools": ["convert_cad", "detect_format", "get_file_info", "list_formats", "get_license_status"],
+      "tools": ["convert_cad", "detect_format", "get_file_info", "list_formats", "get_license_status", "batch_convert_cad", "get_bom", "register_license"],
       "networkNote": ""
     }
   ]

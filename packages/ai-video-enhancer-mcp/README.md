@@ -11,7 +11,7 @@ AI Video Enhancer Studio is a Windows 10/11 desktop app with a free trial: https
 
 This package is a small launcher. It finds AI Video Enhancer Studio on your PC (`aivideoenhancer.exe`, installed per-user in
 `%LOCALAPPDATA%\Programs\AIVideoEnhancerStudio` or on your `PATH`) and runs the app's own MCP server
-(`aivideoenhancer serve`) over stdio. Tools: `enhance_video`, `get_file_info`, `get_status`, `list_presets`, `list_formats`, `get_license_status`.
+(`aivideoenhancer serve`) over stdio. Tools: `enhance_video`, `get_file_info`, `get_status`, `list_presets`, `list_formats`, `get_license_status`, `register_license`.
 
 If the app is not installed yet, the launcher serves a single `get_started` tool that gives your agent the
 download link and the install steps instead.
@@ -24,7 +24,7 @@ https://github.com/brunojanvier77/ContentaSoft/blob/main/ai-video-enhancer/cli.m
 Claude Code (Windows):
 
 ```
-claude mcp add ai-video-enhancer -- cmd /c npx -y @contentasoft/ai-video-enhancer-mcp@1.0.5
+claude mcp add ai-video-enhancer -- cmd /c npx -y @contentasoft/ai-video-enhancer-mcp@1.0.6
 ```
 
 Claude Desktop, Cursor and other clients that use `mcpServers` (JSON):
@@ -32,7 +32,7 @@ Claude Desktop, Cursor and other clients that use `mcpServers` (JSON):
 ```json
 {
   "mcpServers": {
-    "ai-video-enhancer": { "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/ai-video-enhancer-mcp@1.0.5"] }
+    "ai-video-enhancer": { "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/ai-video-enhancer-mcp@1.0.6"] }
   }
 }
 ```
@@ -42,17 +42,17 @@ VS Code (`.vscode/mcp.json`, note the `servers` key):
 ```json
 {
   "servers": {
-    "ai-video-enhancer": { "type": "stdio", "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/ai-video-enhancer-mcp@1.0.5"] }
+    "ai-video-enhancer": { "type": "stdio", "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/ai-video-enhancer-mcp@1.0.6"] }
   }
 }
 ```
 
-Codex (`codex mcp add ai-video-enhancer -- cmd /c npx -y @contentasoft/ai-video-enhancer-mcp@1.0.5`, or `~/.codex/config.toml`):
+Codex (`codex mcp add ai-video-enhancer -- cmd /c npx -y @contentasoft/ai-video-enhancer-mcp@1.0.6`, or `~/.codex/config.toml`):
 
 ```toml
 [mcp_servers.ai-video-enhancer]
 command = "cmd"
-args = ["/c", "npx", "-y", "@contentasoft/ai-video-enhancer-mcp@1.0.5"]
+args = ["/c", "npx", "-y", "@contentasoft/ai-video-enhancer-mcp@1.0.6"]
 startup_timeout_sec = 60
 tool_timeout_sec = 3600
 ```

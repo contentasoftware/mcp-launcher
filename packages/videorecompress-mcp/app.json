@@ -21,6 +21,7 @@
     "estimate_savings",
     "list_presets",
     "list_formats",
-    "get_license_status"
+    "get_license_status",
+    "register_license"
   ]
 }

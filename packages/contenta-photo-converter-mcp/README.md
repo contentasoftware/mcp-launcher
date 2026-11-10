@@ -11,7 +11,7 @@ Contenta Photo Converter is the MCP server of **Contenta Converter**, a Windows 
 
 This package is a small launcher. It finds Contenta Converter on your PC (`contenta.exe`, installed per-user in
 `%LOCALAPPDATA%\Programs\ContentaConverter` or on your `PATH`) and runs the app's own MCP server
-(`contenta serve`) over stdio. Tools: `convert_image`, `batch_convert`, `ai_transform`, `create_pdf_album`, `create_slideshow`, `merge_pdfs`, `detect_format`, `get_file_info`, `list_formats`, `list_effects`, `read_metadata`, `write_metadata`, `get_license_status`.
+(`contenta serve`) over stdio. Tools: `convert_image`, `batch_convert`, `ai_transform`, `create_pdf_album`, `create_slideshow`, `merge_pdfs`, `detect_format`, `get_file_info`, `list_formats`, `list_effects`, `read_metadata`, `write_metadata`, `get_license_status`, `register_license`.
 
 If the app is not installed yet, the launcher serves a single `get_started` tool that gives your agent the
 download link and the install steps instead.
@@ -24,7 +24,7 @@ https://github.com/brunojanvier77/ContentaSoft/blob/main/contenta-converter/cli.
 Claude Code (Windows):
 
 ```
-claude mcp add contenta-photo-converter -- cmd /c npx -y @contentasoft/contenta-photo-converter-mcp@1.0.5
+claude mcp add contenta-photo-converter -- cmd /c npx -y @contentasoft/contenta-photo-converter-mcp@1.0.6
 ```
 
 Claude Desktop, Cursor and other clients that use `mcpServers` (JSON):
@@ -32,7 +32,7 @@ Claude Desktop, Cursor and other clients that use `mcpServers` (JSON):
 ```json
 {
   "mcpServers": {
-    "contenta-photo-converter": { "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/contenta-photo-converter-mcp@1.0.5"] }
+    "contenta-photo-converter": { "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/contenta-photo-converter-mcp@1.0.6"] }
   }
 }
 ```
@@ -42,17 +42,17 @@ VS Code (`.vscode/mcp.json`, note the `servers` key):
 ```json
 {
   "servers": {
-    "contenta-photo-converter": { "type": "stdio", "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/contenta-photo-converter-mcp@1.0.5"] }
+    "contenta-photo-converter": { "type": "stdio", "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/contenta-photo-converter-mcp@1.0.6"] }
   }
 }
 ```
 
-Codex (`codex mcp add contenta-photo-converter -- cmd /c npx -y @contentasoft/contenta-photo-converter-mcp@1.0.5`, or `~/.codex/config.toml`):
+Codex (`codex mcp add contenta-photo-converter -- cmd /c npx -y @contentasoft/contenta-photo-converter-mcp@1.0.6`, or `~/.codex/config.toml`):
 
 ```toml
 [mcp_servers.contenta-photo-converter]
 command = "cmd"
-args = ["/c", "npx", "-y", "@contentasoft/contenta-photo-converter-mcp@1.0.5"]
+args = ["/c", "npx", "-y", "@contentasoft/contenta-photo-converter-mcp@1.0.6"]
 startup_timeout_sec = 60
 tool_timeout_sec = 3600
 ```
