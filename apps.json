@@ -1,5 +1,5 @@
 {
-  "version": "1.0.9",
+  "version": "1.0.10",
   "apps": [
     {
       "key": "cc",
@@ -71,7 +71,7 @@
       "websiteUrl": "https://www.contenta-software.com/3dcadconverter/",
       "downloadUrl": "https://www.contenta-software.com/3dcadconverter/download.php",
       "privacyUrl": "https://www.contenta-software.com/3dcadconverter/privacy.php",
-      "tools": ["convert_cad", "detect_format", "get_file_info", "list_formats", "get_license_status", "batch_convert_cad", "get_bom", "register_license"],
+      "tools": ["convert_cad", "detect_format", "get_file_info", "list_formats", "get_license_status", "batch_convert_cad", "get_bom", "render_model", "register_license"],
       "networkNote": ""
     }
   ]

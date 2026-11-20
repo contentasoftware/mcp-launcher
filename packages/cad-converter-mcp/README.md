@@ -11,7 +11,7 @@ Lets an AI agent (Claude Code, Claude Desktop/Cowork, Codex, Cursor, VS Code and
 
 This package is a small launcher. It finds 3D CAD Converter on your PC (`cadconvert.exe`, installed per-user in
 `%LOCALAPPDATA%\Programs\CadConverter` or on your `PATH`) and runs the app's own MCP server
-(`cadconvert serve`) over stdio. Tools: `convert_cad`, `detect_format`, `get_file_info`, `list_formats`, `get_license_status`, `batch_convert_cad`, `get_bom`, `register_license`.
+(`cadconvert serve`) over stdio. Tools: `convert_cad`, `detect_format`, `get_file_info`, `list_formats`, `get_license_status`, `batch_convert_cad`, `get_bom`, `render_model`, `register_license`.
 
 If the app is not installed yet, the launcher serves a single `get_started` tool that gives your agent the
 download link and the install steps instead.
@@ -24,7 +24,7 @@ https://github.com/brunojanvier77/ContentaSoft/blob/main/cad-converter/cli.md (t
 Claude Code (Windows):
 
 ```
-claude mcp add cad-converter -- cmd /c npx -y @contentasoft/cad-converter-mcp@1.0.9
+claude mcp add cad-converter -- cmd /c npx -y @contentasoft/cad-converter-mcp@1.0.10
 ```
 
 Claude Desktop, Cursor and other clients that use `mcpServers` (JSON):
@@ -32,7 +32,7 @@ Claude Desktop, Cursor and other clients that use `mcpServers` (JSON):
 ```json
 {
   "mcpServers": {
-    "cad-converter": { "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/cad-converter-mcp@1.0.9"] }
+    "cad-converter": { "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/cad-converter-mcp@1.0.10"] }
   }
 }
 ```
@@ -42,17 +42,17 @@ VS Code (`.vscode/mcp.json`, note the `servers` key):
 ```json
 {
   "servers": {
-    "cad-converter": { "type": "stdio", "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/cad-converter-mcp@1.0.9"] }
+    "cad-converter": { "type": "stdio", "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/cad-converter-mcp@1.0.10"] }
   }
 }
 ```
 
-Codex (`codex mcp add cad-converter -- cmd /c npx -y @contentasoft/cad-converter-mcp@1.0.9`, or `~/.codex/config.toml`):
+Codex (`codex mcp add cad-converter -- cmd /c npx -y @contentasoft/cad-converter-mcp@1.0.10`, or `~/.codex/config.toml`):
 
 ```toml
 [mcp_servers.cad-converter]
 command = "cmd"
-args = ["/c", "npx", "-y", "@contentasoft/cad-converter-mcp@1.0.9"]
+args = ["/c", "npx", "-y", "@contentasoft/cad-converter-mcp@1.0.10"]
 startup_timeout_sec = 60
 tool_timeout_sec = 3600
 ```
