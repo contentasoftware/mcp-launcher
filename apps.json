@@ -1,5 +1,5 @@
 {
-  "version": "1.0.8",
+  "version": "1.0.9",
   "apps": [
     {
       "key": "cc",
@@ -17,7 +17,7 @@
       "websiteUrl": "https://www.contenta-converter.com/",
       "downloadUrl": "https://www.contenta-converter.com/download.php",
       "privacyUrl": "https://www.contenta-converter.com/privacy.php",
-      "tools": ["convert_image", "batch_convert", "ai_transform", "create_pdf_album", "create_slideshow", "merge_pdfs", "detect_format", "get_file_info", "list_formats", "list_effects", "read_metadata", "write_metadata", "get_license_status", "register_license"],
+      "tools": ["convert_image", "batch_convert", "run_job", "check_image", "ai_transform", "create_pdf_album", "create_slideshow", "merge_pdfs", "detect_format", "get_file_info", "list_formats", "list_effects", "read_metadata", "write_metadata", "get_license_status", "register_license"],
       "networkNote": "ai_transform sends the image to Google Gemini with your own Gemini API key."
     },
     {

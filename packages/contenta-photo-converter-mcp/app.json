@@ -18,6 +18,8 @@
   "tools": [
     "convert_image",
     "batch_convert",
+    "run_job",
+    "check_image",
     "ai_transform",
     "create_pdf_album",
     "create_slideshow",

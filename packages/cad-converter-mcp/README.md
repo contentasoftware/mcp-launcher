@@ -24,7 +24,7 @@ https://github.com/brunojanvier77/ContentaSoft/blob/main/cad-converter/cli.md (t
 Claude Code (Windows):
 
 ```
-claude mcp add cad-converter -- cmd /c npx -y @contentasoft/cad-converter-mcp@1.0.8
+claude mcp add cad-converter -- cmd /c npx -y @contentasoft/cad-converter-mcp@1.0.9
 ```
 
 Claude Desktop, Cursor and other clients that use `mcpServers` (JSON):
@@ -32,7 +32,7 @@ Claude Desktop, Cursor and other clients that use `mcpServers` (JSON):
 ```json
 {
   "mcpServers": {
-    "cad-converter": { "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/cad-converter-mcp@1.0.8"] }
+    "cad-converter": { "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/cad-converter-mcp@1.0.9"] }
   }
 }
 ```
@@ -42,17 +42,17 @@ VS Code (`.vscode/mcp.json`, note the `servers` key):
 ```json
 {
   "servers": {
-    "cad-converter": { "type": "stdio", "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/cad-converter-mcp@1.0.8"] }
+    "cad-converter": { "type": "stdio", "command": "cmd", "args": ["/c", "npx", "-y", "@contentasoft/cad-converter-mcp@1.0.9"] }
   }
 }
 ```
 
-Codex (`codex mcp add cad-converter -- cmd /c npx -y @contentasoft/cad-converter-mcp@1.0.8`, or `~/.codex/config.toml`):
+Codex (`codex mcp add cad-converter -- cmd /c npx -y @contentasoft/cad-converter-mcp@1.0.9`, or `~/.codex/config.toml`):
 
 ```toml
 [mcp_servers.cad-converter]
 command = "cmd"
-args = ["/c", "npx", "-y", "@contentasoft/cad-converter-mcp@1.0.8"]
+args = ["/c", "npx", "-y", "@contentasoft/cad-converter-mcp@1.0.9"]
 startup_timeout_sec = 60
 tool_timeout_sec = 3600
 ```
